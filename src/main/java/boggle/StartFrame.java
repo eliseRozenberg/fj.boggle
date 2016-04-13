@@ -11,10 +11,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
@@ -39,10 +41,12 @@ public class StartFrame extends JFrame {
 		setSize(600, 700);
 		setLocationRelativeTo(null);
 		setResizable(false);
-		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg")).getImage());
+		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg"))
+				.getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		InputStream in = new FileInputStream(new File(getClass().getResource("/music.wav").getPath()));
+		InputStream in = new FileInputStream(new File(getClass().getResource(
+				"/music.wav").getPath()));
 		AudioStream music = new AudioStream(in);
 		AudioPlayer.player.start(music);
 
@@ -93,7 +97,7 @@ public class StartFrame extends JFrame {
 
 	public void addListeners() {
 		singleButton.addMouseListener(new MouseListener() {
-			@Override
+
 			public void mouseReleased(MouseEvent e) {
 				setVisible(false);
 				boggleFrame = new BoggleFrame(1);
@@ -101,18 +105,15 @@ public class StartFrame extends JFrame {
 				boggleFrame.setVisible(true);
 			}
 
-			@Override
 			public void mousePressed(MouseEvent e) {
 			}
 
-			@Override
 			public void mouseExited(MouseEvent e) {
 				singleButton.setForeground(colorExited);
 				singleButton.setFont(font1);
 				singleButton.setText("          Single Player");
 			}
 
-			@Override
 			public void mouseEntered(MouseEvent e) {
 				singleButton.setForeground(colorEntered);
 				singleButton.setFont(font2);
@@ -120,13 +121,12 @@ public class StartFrame extends JFrame {
 
 			}
 
-			@Override
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
 
 		doubleButton.addMouseListener(new MouseListener() {
-			@Override
+
 			public void mouseReleased(MouseEvent e) {
 				setVisible(false);
 				boggleFrame = new BoggleFrame(2);
@@ -134,85 +134,73 @@ public class StartFrame extends JFrame {
 				boggleFrame.setVisible(true);
 			}
 
-			@Override
 			public void mousePressed(MouseEvent e) {
 			}
 
-			@Override
 			public void mouseExited(MouseEvent e) {
 				doubleButton.setForeground(colorExited);
 				doubleButton.setFont(font1);
 				doubleButton.setText("        Double Player");
 			}
 
-			@Override
 			public void mouseEntered(MouseEvent e) {
 				doubleButton.setForeground(colorEntered);
 				doubleButton.setFont(font2);
 				doubleButton.setText("       Double Player");
 			}
 
-			@Override
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
 
 		rulesButton.addMouseListener(new MouseListener() {
-			@Override
+
 			public void mouseReleased(MouseEvent e) {
 				setVisible(false);
 				rulesFrame.setVisible(true);
 			}
 
-			@Override
 			public void mousePressed(MouseEvent e) {
 			}
 
-			@Override
 			public void mouseExited(MouseEvent e) {
 				rulesButton.setForeground(colorExited);
 				rulesButton.setFont(font1);
 				rulesButton.setText("                Rules");
 			}
 
-			@Override
 			public void mouseEntered(MouseEvent e) {
 				rulesButton.setForeground(colorEntered);
 				rulesButton.setFont(font2);
 				rulesButton.setText("               Rules");
 			}
 
-			@Override
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
 
 		highScoreButton.addMouseListener(new MouseListener() {
-			@Override
+
 			public void mouseReleased(MouseEvent e) {
 				// setVisible(false);
 				// highScoreFrame.setVisible(true);
 			}
 
-			@Override
 			public void mousePressed(MouseEvent e) {
 			}
 
-			@Override
 			public void mouseExited(MouseEvent e) {
 				highScoreButton.setForeground(colorExited);
 				highScoreButton.setFont(font1);
 				highScoreButton.setText("           High Scores");
 			}
 
-			@Override
 			public void mouseEntered(MouseEvent e) {
 				highScoreButton.setForeground(colorEntered);
 				highScoreButton.setFont(font2);
 				highScoreButton.setText("          High Scores");
 			}
 
-			@Override
 			public void mouseClicked(MouseEvent e) {
 			}
 		});

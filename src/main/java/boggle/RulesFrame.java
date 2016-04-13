@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URL;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -19,17 +20,17 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-
 public class RulesFrame extends JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private StartFrame startFrame;
+	private final StartFrame startFrame;
 	private JPanel buttonPanel;
-	private JLabel menuButton, leftButton, rightButton, circleLabel, pix, heading1;
-	private ImageIcon[] pictures;
+	private JLabel menuButton, leftButton, rightButton, circleLabel, pix,
+			heading1;
+	private final ImageIcon[] pictures;
 	private ImageIcon menu1, menu2;
 	private Border borderMenu, borderRight, borderExited;
 	private Font font1, font2;
@@ -43,7 +44,8 @@ public class RulesFrame extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
-		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg")).getImage());
+		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg"))
+				.getImage());
 		setBackground(Color.white);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -76,23 +78,28 @@ public class RulesFrame extends JFrame {
 		pix.setBackground(Color.white);
 
 		leftButton = new JLabel();
-		leftButton.setIcon(new ImageIcon(formatIcon(100, 100, getClass().getResource("/left.png"))));
+		leftButton.setIcon(new ImageIcon(formatIcon(100, 100, getClass()
+				.getResource("/left.png"))));
 		leftButton.setPreferredSize(new Dimension(100, 100));
 		leftButton.setBackground(Color.white);
 		leftButton.setBorder(borderRight);
 
 		rightButton = new JLabel();
 		rightButton.setPreferredSize(new Dimension(100, 100));
-		rightButton.setIcon(new ImageIcon(formatIcon(100, 100, getClass().getResource("/right.png"))));
+		rightButton.setIcon(new ImageIcon(formatIcon(100, 100, getClass()
+				.getResource("/right.png"))));
 		rightButton.setBackground(Color.white);
 
 		circleLabel = new JLabel();
-		circleLabel.setIcon(new ImageIcon(formatIcon(65, 65, getClass().getResource("/circle2.jpg"))));
+		circleLabel.setIcon(new ImageIcon(formatIcon(65, 65, getClass()
+				.getResource("/circle2.jpg"))));
 		circleLabel.setPreferredSize(new Dimension(100, 100));
 		circleLabel.setBackground(Color.white);
 
-		menu1 = new ImageIcon(formatIcon(180, 140, getClass().getResource("/menu.png")));
-		menu2 = new ImageIcon(formatIcon(180, 140, getClass().getResource("/menu2.JPG")));
+		menu1 = new ImageIcon(formatIcon(180, 140,
+				getClass().getResource("/menu.png")));
+		menu2 = new ImageIcon(formatIcon(180, 140,
+				getClass().getResource("/menu2.JPG")));
 
 		menuButton = new JLabel();
 		menuButton.setPreferredSize(new Dimension(180, 150));
@@ -118,20 +125,21 @@ public class RulesFrame extends JFrame {
 
 	public Image formatIcon(int width, Integer height, URL image) {
 		ImageIcon icon = new ImageIcon(image);
-		Image img = icon.getImage().getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+		Image img = icon.getImage().getScaledInstance(width, height,
+				java.awt.Image.SCALE_SMOOTH);
 		return img;
 	}
 
 	public void createImages() {
 		for (int i = 0; i < pictures.length; i++) {
-			pictures[i] = new ImageIcon(
-					formatIcon(getWidth(), getHeight() - 190, getClass().getResource("/pix" + (i + 1) + ".JPG")));
+			pictures[i] = new ImageIcon(formatIcon(getWidth(),
+					getHeight() - 190,
+					getClass().getResource("/pix" + (i + 1) + ".JPG")));
 		}
 	}
 
 	private void addListeners() {
 		menuButton.addMouseListener(new MouseListener() {
-			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				setVisible(false);
 				position = 0;
@@ -139,29 +147,24 @@ public class RulesFrame extends JFrame {
 				startFrame.setVisible(true);
 			}
 
-			@Override
 			public void mousePressed(MouseEvent arg0) {
 			}
 
-			@Override
 			public void mouseExited(MouseEvent arg0) {
 				menuButton.setBorder(borderExited);
 				menuButton.setIcon(menu2);
 			}
 
-			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				menuButton.setBorder(borderMenu);
 				menuButton.setIcon(menu1);
 			}
 
-			@Override
 			public void mouseClicked(MouseEvent arg0) {
 			}
 		});
 
 		leftButton.addMouseListener(new MouseListener() {
-			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				if (position == 0) {
 					position = pictures.length - 1;
@@ -172,30 +175,26 @@ public class RulesFrame extends JFrame {
 
 			}
 
-			@Override
 			public void mousePressed(MouseEvent arg0) {
 			}
 
-			@Override
 			public void mouseExited(MouseEvent arg0) {
 				leftButton.setBorder(borderRight);
 			}
 
-			@Override
 			public void mouseEntered(MouseEvent arg0) {
 
 				leftButton.setBorder(borderExited);
 			}
 
-			@Override
 			public void mouseClicked(MouseEvent arg0) {
 			}
 		});
 
 		rightButton.addMouseListener(new MouseListener() {
-			@Override
+
 			public void mouseReleased(MouseEvent arg0) {
-				if (position == pictures.length - 1) {
+				if (position == (pictures.length - 1)) {
 					position = 0;
 				} else {
 					++position;
@@ -203,49 +202,41 @@ public class RulesFrame extends JFrame {
 				pix.setIcon(pictures[position]);
 			}
 
-			@Override
 			public void mousePressed(MouseEvent arg0) {
 			}
 
-			@Override
 			public void mouseExited(MouseEvent arg0) {
 				rightButton.setBorder(borderExited);
 			}
 
-			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				rightButton.setBorder(borderRight);
 			}
 
-			@Override
 			public void mouseClicked(MouseEvent arg0) {
 
 			}
 		});
 
 		heading1.addMouseListener(new MouseListener() {
-			@Override
+
 			public void mouseReleased(MouseEvent arg0) {
 				changeColor();
 			}
 
-			@Override
 			public void mousePressed(MouseEvent arg0) {
 			}
 
-			@Override
 			public void mouseExited(MouseEvent arg0) {
 				changeColor();
 				heading1.setFont(font1);
 			}
 
-			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				changeColor();
 				heading1.setFont(font2);
 			}
 
-			@Override
 			public void mouseClicked(MouseEvent arg0) {
 			}
 		});
@@ -267,7 +258,6 @@ public class RulesFrame extends JFrame {
 			color = 1;
 			break;
 		}
-
 	}
 
 	public static void main(String[] args) {
@@ -278,6 +268,5 @@ public class RulesFrame extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 }
