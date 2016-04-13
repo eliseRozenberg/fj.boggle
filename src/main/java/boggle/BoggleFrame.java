@@ -19,6 +19,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Stack;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -71,6 +72,7 @@ public class BoggleFrame extends JFrame {
 	private final JButton resetBoard;
 	private final JButton rotateBoard;
 	private final JButton pauseButton;
+	private final Stack<Cell> cellsStack;
 
 	private final JLabel correctLabel;
 	private final ArrayList<String> words;
@@ -118,6 +120,7 @@ public class BoggleFrame extends JFrame {
 		wordTextField = new JTextField();
 		correctLabel = new JLabel();
 		pauseLabel = new JLabel("GAME PAUSED", JLabel.CENTER);
+		cellsStack = new Stack<Cell>();
 		logic = new Logic();
 		logic.fillBoard();
 
@@ -182,147 +185,115 @@ public class BoggleFrame extends JFrame {
 					public boolean postProcessKeyEvent(KeyEvent event) {
 
 						if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-
 							checkWord();
-
+						} else if (event.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+							if (!cellsStack.isEmpty()
+									&& ((cellsStack.size() - 1) == wordTextField
+											.getText().length())) {
+								Cell cell = cellsStack.pop();
+								boggleBoard[cell.getRow()][cell.getCol()]
+										.setBorder(new LineBorder(Color.BLUE,
+												10, true));
+								cell.setIsClicked(false);
+							}
 						}
-
 						return false;
-
 					}
-
 				});
 
 		resetBoard.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-
 				resetBoard();
-
 			}
-
 		});
 
 		rotateBoard.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-
 				rotateMatrixRight();
-
 			}
-
 		});
 
 		pauseButton.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent arg0) {
-
 				if (paused) {
-
 					rightPanel.remove(pauseLabel);
-
 					rightPanel.add(boardPanel, BorderLayout.CENTER);
-
 					pauseButton.setText("PAUSE");
-
 					paused = false;
-
 					resetBoard.setEnabled(true);
-
 					wordTextField.setEnabled(true);
-
 					rotateBoard.setEnabled(true);
-
 					repaint();
-
 					return;
-
 				}
 
 				if (!paused) {
-
 					rightPanel.remove(boardPanel);
-
 					rightPanel.add(pauseLabel, BorderLayout.CENTER);
-
 					pauseButton.setText("RESUME");
-
 					paused = true;
-
 					resetBoard.setEnabled(false);
-
 					wordTextField.setEnabled(false);
-
 					rotateBoard.setEnabled(false);
-
 					repaint();
-
 					return;
-
 				}
-
 			}
-
 		});
 
 		wordTextField.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-
 				checkWord();
-
 			}
-
 		});
 
 		for (int row = 0; row < 4; row++) {
-
 			for (int col = 0; col < 4; col++) {
-
 				final int i = row;
-
 				final int j = col;
 
 				boggleBoard[row][col].addMouseListener(new MouseListener() {
-
 					public void mouseClicked(MouseEvent arg0) {
 
-						wordTextField.setText(wordTextField.getText()
-								+ logic.getValueOfCell(i, j));
+						if (!cellsStack.contains(logic.getCell(i, j))) {
+							wordTextField.setText(wordTextField.getText()
+									+ logic.getValueOfCell(i, j));
+							cellsStack.push(logic.getCell(i, j));
+							boggleBoard[i][j].setBorder(boardClickedBorder);
+							logic.setIsClicked(i, j, true);
 
-						boggleBoard[i][j].setBorder(boardClickedBorder);
+							// play click sound
+							try {
 
-						logic.setIsClicked(i, j, true);
+								AudioInputStream audioInputStream = AudioSystem
 
-						// play click sound
+								.getAudioInputStream(new File(getClass()
+										.getResource("/click.wav").getFile()));
 
-						try {
+								Clip clip = AudioSystem.getClip();
 
-							AudioInputStream audioInputStream = AudioSystem
+								clip.open(audioInputStream);
 
-							.getAudioInputStream(new File(getClass()
-									.getResource("/click.wav").getFile()));
+								clip.start();
 
-							Clip clip = AudioSystem.getClip();
+							} catch (UnsupportedAudioFileException e) {
 
-							clip.open(audioInputStream);
+								e.printStackTrace();
 
-							clip.start();
+							} catch (IOException e) {
 
-						} catch (UnsupportedAudioFileException e) {
+								e.printStackTrace();
 
-							e.printStackTrace();
+							} catch (LineUnavailableException e) {
 
-						} catch (IOException e) {
+								e.printStackTrace();
 
-							e.printStackTrace();
-
-						} catch (LineUnavailableException e) {
-
-							e.printStackTrace();
+							}
 
 						}
-
 					}
 
 					public void mouseEntered(MouseEvent arg0) {
@@ -622,6 +593,7 @@ public class BoggleFrame extends JFrame {
 	}
 
 	public void resetCells() {
+		cellsStack.clear();
 		for (int row = 0; row < 4; row++) {
 			for (int col = 0; col < 4; col++) {
 				boggleBoard[row][col].setBorder(new LineBorder(Color.BLUE, 10,
