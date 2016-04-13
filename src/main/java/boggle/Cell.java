@@ -22,6 +22,10 @@ public class Cell {
 		this.isClicked = clicked;
 	}
 
+	public boolean getIsClicked() {
+		return isClicked;
+	}
+
 	public void setInWord(boolean inWord) {
 		this.inWord = inWord;
 	}

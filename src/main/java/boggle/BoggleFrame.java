@@ -85,7 +85,8 @@ public class BoggleFrame extends JFrame {
 	private final ImageIcon xImage;
 	private final JLabel pauseLabel;
 
-	private Border boardClickedBorder, boardEnteredBorder, boardExitedBorder, rotateEnteredBorder, rotateExitedBorder;
+	private final Border boardClickedBorder, boardEnteredBorder, boardExitedBorder, rotateEnteredBorder,
+			rotateExitedBorder;
 
 	@Inject
 	public BoggleFrame(int players) {
@@ -393,8 +394,8 @@ public class BoggleFrame extends JFrame {
 
 					public void mouseClicked(MouseEvent arg0) {
 						wordTextField.setText(wordTextField.getText() + logic.getValueOfCell(i, j));
-						boggleBoard[i][j].setBorder(new LineBorder(Color.GREEN, 10, true));
-
+						boggleBoard[i][j].setBorder(boardClickedBorder);
+						logic.setIsClicked(i, j, true);
 						// play click sound
 						try {
 							AudioInputStream audioInputStream = AudioSystem
@@ -412,10 +413,19 @@ public class BoggleFrame extends JFrame {
 					}
 
 					public void mouseEntered(MouseEvent arg0) {
-						boggleBoard[i][j].setBorder(boardEnteredBorder);
+						if (logic.getIsClicked(i, j)) {
+							boggleBoard[i][j].setBorder(boardClickedBorder);
+
+						} else {
+							boggleBoard[i][j].setBorder(boardEnteredBorder);
+
+						}
 					}
 
 					public void mouseExited(MouseEvent arg0) {
+						if (!logic.getIsClicked(i, j)) {
+							boggleBoard[i][j].setBorder(boardExitedBorder);
+						}
 					}
 
 					public void mousePressed(MouseEvent arg0) {
@@ -525,9 +535,10 @@ public class BoggleFrame extends JFrame {
 	}
 
 	public void resetCells() {
-		for (JLabel[] element : boggleBoard) {
-			for (JLabel element2 : element) {
-				element2.setBorder(new LineBorder(Color.BLUE, 10, true));
+		for (int row = 0; row < 4; row++) {
+			for (int col = 0; col < 4; col++) {
+				boggleBoard[row][col].setBorder(new LineBorder(Color.BLUE, 10, true));
+				logic.setIsClicked(row, col, false);
 			}
 		}
 	}

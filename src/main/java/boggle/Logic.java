@@ -102,20 +102,14 @@ public class Logic {
 				isQ = true;
 			}
 
-			if (!String.valueOf(word.charAt(index)).equalsIgnoreCase(
-					board[x][y].getValue())
-					&& !isQ) {
+			if (!String.valueOf(word.charAt(index)).equalsIgnoreCase(board[x][y].getValue()) && !isQ) {
 				return false;
 			}
 
-			found = checkAround(x + 1, y, word, index + 1)
-					|| checkAround(x, y + 1, word, index + 1)
-					|| checkAround(x - 1, y, word, index + 1)
-					|| checkAround(x, y - 1, word, index + 1)
-					|| checkAround(x + 1, y + 1, word, index + 1)
-					|| checkAround(x - 1, y - 1, word, index + 1)
-					|| checkAround(x - 1, y + 1, word, index + 1)
-					|| checkAround(x + 1, y - 1, word, index + 1);
+			found = checkAround(x + 1, y, word, index + 1) || checkAround(x, y + 1, word, index + 1)
+					|| checkAround(x - 1, y, word, index + 1) || checkAround(x, y - 1, word, index + 1)
+					|| checkAround(x + 1, y + 1, word, index + 1) || checkAround(x - 1, y - 1, word, index + 1)
+					|| checkAround(x - 1, y + 1, word, index + 1) || checkAround(x + 1, y - 1, word, index + 1);
 		}
 		return found;
 
@@ -136,5 +130,13 @@ public class Logic {
 
 	public void setCell(int row, int column, Cell cell) {
 		board[row][column] = cell;
+	}
+
+	public void setIsClicked(int row, int col, boolean clicked) {
+		board[row][col].setIsClicked(clicked);
+	}
+
+	public boolean getIsClicked(int row, int col) {
+		return board[row][col].getIsClicked();
 	}
 }
