@@ -7,19 +7,13 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
 
 public class StartGameGui extends JFrame {
 
@@ -78,10 +72,8 @@ public class StartGameGui extends JFrame {
 		optionsPanel.add(highScore);
 		container.add(optionsPanel, BorderLayout.SOUTH);
 
-		InputStream in = new FileInputStream(new File(getClass().getResource("/music.wav").getPath()));
-		AudioStream music = new AudioStream(in);
-		AudioPlayer.player.start(music);
-		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg")).getImage());
+		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg"))
+				.getImage());
 
 		singleButton.addActionListener(new ActionListener() {
 
