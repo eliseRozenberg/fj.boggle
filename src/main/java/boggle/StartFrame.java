@@ -8,17 +8,17 @@ import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
 
 public class StartFrame extends JFrame {
 
@@ -44,11 +44,6 @@ public class StartFrame extends JFrame {
 		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg"))
 				.getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		InputStream in = new FileInputStream(new File(getClass().getResource(
-				"/music.wav").getPath()));
-		AudioStream music = new AudioStream(in);
-		AudioPlayer.player.start(music);
 
 		addFormat();
 		addListeners();
@@ -95,17 +90,37 @@ public class StartFrame extends JFrame {
 
 	}
 
+	public void playClickSound() {
+		try {
+
+			AudioInputStream audioInputStream = AudioSystem
+					.getAudioInputStream(new File(getClass().getResource(
+							"/click.wav").getFile()));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void addListeners() {
 		singleButton.addMouseListener(new MouseListener() {
 
 			public void mouseReleased(MouseEvent e) {
 				setVisible(false);
 				boggleFrame = new BoggleFrame(1);
-				// boggle.setPlayer(1);
 				boggleFrame.setVisible(true);
+
 			}
 
 			public void mousePressed(MouseEvent e) {
+				playClickSound();
 			}
 
 			public void mouseExited(MouseEvent e) {
@@ -115,6 +130,7 @@ public class StartFrame extends JFrame {
 			}
 
 			public void mouseEntered(MouseEvent e) {
+				playClickSound();
 				singleButton.setForeground(colorEntered);
 				singleButton.setFont(font2);
 				singleButton.setText("         Single Player");
@@ -135,6 +151,7 @@ public class StartFrame extends JFrame {
 			}
 
 			public void mousePressed(MouseEvent e) {
+				playClickSound();
 			}
 
 			public void mouseExited(MouseEvent e) {
@@ -144,6 +161,7 @@ public class StartFrame extends JFrame {
 			}
 
 			public void mouseEntered(MouseEvent e) {
+				playClickSound();
 				doubleButton.setForeground(colorEntered);
 				doubleButton.setFont(font2);
 				doubleButton.setText("       Double Player");
@@ -161,6 +179,7 @@ public class StartFrame extends JFrame {
 			}
 
 			public void mousePressed(MouseEvent e) {
+				playClickSound();
 			}
 
 			public void mouseExited(MouseEvent e) {
@@ -170,6 +189,7 @@ public class StartFrame extends JFrame {
 			}
 
 			public void mouseEntered(MouseEvent e) {
+				playClickSound();
 				rulesButton.setForeground(colorEntered);
 				rulesButton.setFont(font2);
 				rulesButton.setText("               Rules");
@@ -187,6 +207,7 @@ public class StartFrame extends JFrame {
 			}
 
 			public void mousePressed(MouseEvent e) {
+				playClickSound();
 			}
 
 			public void mouseExited(MouseEvent e) {
@@ -196,6 +217,7 @@ public class StartFrame extends JFrame {
 			}
 
 			public void mouseEntered(MouseEvent e) {
+				playClickSound();
 				highScoreButton.setForeground(colorEntered);
 				highScoreButton.setFont(font2);
 				highScoreButton.setText("          High Scores");

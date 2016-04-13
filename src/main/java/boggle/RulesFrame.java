@@ -148,6 +148,7 @@ public class RulesFrame extends JFrame {
 			}
 
 			public void mousePressed(MouseEvent arg0) {
+				startFrame.playClickSound();
 			}
 
 			public void mouseExited(MouseEvent arg0) {
@@ -176,6 +177,7 @@ public class RulesFrame extends JFrame {
 			}
 
 			public void mousePressed(MouseEvent arg0) {
+				startFrame.playClickSound();
 			}
 
 			public void mouseExited(MouseEvent arg0) {
@@ -203,6 +205,7 @@ public class RulesFrame extends JFrame {
 			}
 
 			public void mousePressed(MouseEvent arg0) {
+				startFrame.playClickSound();
 			}
 
 			public void mouseExited(MouseEvent arg0) {
@@ -225,6 +228,7 @@ public class RulesFrame extends JFrame {
 			}
 
 			public void mousePressed(MouseEvent arg0) {
+				startFrame.playClickSound();
 			}
 
 			public void mouseExited(MouseEvent arg0) {
