@@ -7,6 +7,7 @@ public class Cell {
 	private boolean inWord;
 	private boolean isVisited;
 	private String value;
+	private boolean isClicked;
 
 	public Cell(int row, int col, String value) {
 		this.row = row;
@@ -14,6 +15,11 @@ public class Cell {
 		this.value = value;
 		this.isVisited = false;
 		this.inWord = false;
+		this.isClicked = false;
+	}
+
+	public void setIsClicked(boolean clicked) {
+		this.isClicked = clicked;
 	}
 
 	public void setInWord(boolean inWord) {

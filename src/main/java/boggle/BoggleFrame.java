@@ -86,8 +86,7 @@ public class BoggleFrame extends JFrame {
 	private final ImageIcon xImage;
 	private final JLabel pauseLabel;
 
-	private final Border boardEnteredBorder, boardExitedBorder,
-			rotateEnteredBorder, rotateExitedBorder;
+	private Border boardClickedBorder, boardEnteredBorder, boardExitedBorder, rotateEnteredBorder, rotateExitedBorder;
 
 	@Inject
 	public BoggleFrame(int players) {
@@ -96,8 +95,7 @@ public class BoggleFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setResizable(false);
-		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg"))
-				.getImage());
+		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg")).getImage());
 
 		container = getContentPane();
 		boardPanel = new JPanel();
@@ -109,8 +107,7 @@ public class BoggleFrame extends JFrame {
 		resetBoard = new JButton("Reset Board!");
 		rotateBoard = new JButton("ROTATE");
 		pauseButton = new JButton("PAUSE");
-		imageLabel = new JLabel(new ImageIcon(getClass().getResource(
-				"/boggle.png")));
+		imageLabel = new JLabel(new ImageIcon(getClass().getResource("/boggle.png")));
 		timerLabel = new JLabel();
 		score1 = new JLabel("Score 1: " + total);
 		score2 = new JLabel("Score 2: " + total);
@@ -122,14 +119,12 @@ public class BoggleFrame extends JFrame {
 		logic = new Logic();
 		boggle = logic.fillBoard();
 
-		blankImage = new ImageIcon(new ImageIcon(getClass().getResource(
-				"/blank.png")).getImage().getScaledInstance(60, 60,
+		blankImage = new ImageIcon(new ImageIcon(getClass().getResource("/blank.png")).getImage().getScaledInstance(60,
+				60, Image.SCALE_SMOOTH));
+		checkImage = new ImageIcon(new ImageIcon(getClass().getResource("/check.jpg")).getImage().getScaledInstance(60,
+				60, Image.SCALE_SMOOTH));
+		xImage = new ImageIcon(new ImageIcon(getClass().getResource("/x.jpg")).getImage().getScaledInstance(60, 60,
 				Image.SCALE_SMOOTH));
-		checkImage = new ImageIcon(new ImageIcon(getClass().getResource(
-				"/check.jpg")).getImage().getScaledInstance(60, 60,
-				Image.SCALE_SMOOTH));
-		xImage = new ImageIcon(new ImageIcon(getClass().getResource("/x.jpg"))
-				.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH));
 
 		for (int row = 0; row < 4; row++) {
 			for (int col = 0; col < 4; col++) {
@@ -144,11 +139,10 @@ public class BoggleFrame extends JFrame {
 		// boggleIcon = new
 		// ImageIcon(getClass().getResource("/boggleMessage.png"));
 
-		boardEnteredBorder = BorderFactory.createMatteBorder(12, 12, 8, 8,
-				Color.blue);
-		boardExitedBorder = new LineBorder(Color.BLUE, 10, true);
-		rotateEnteredBorder = BorderFactory.createMatteBorder(3, 3, 0, 0,
-				Color.blue);
+		boardClickedBorder = new LineBorder(Color.GREEN, 10, true);
+		boardEnteredBorder = BorderFactory.createMatteBorder(12, 12, 8, 8, Color.blue);
+		boardExitedBorder = new LineBorder(Color.blue, 10, true);
+		rotateEnteredBorder = BorderFactory.createMatteBorder(3, 3, 0, 0, Color.blue);
 		rotateExitedBorder = new LineBorder(Color.BLUE, 1, true);
 
 		words = new ArrayList<String>();
@@ -176,16 +170,15 @@ public class BoggleFrame extends JFrame {
 
 		setWindowListener();
 
-		KeyboardFocusManager.getCurrentKeyboardFocusManager()
-				.addKeyEventPostProcessor(new KeyEventPostProcessor() {
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventPostProcessor(new KeyEventPostProcessor() {
 
-					public boolean postProcessKeyEvent(KeyEvent event) {
-						if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-							checkWord();
-						}
-						return false;
-					}
-				});
+			public boolean postProcessKeyEvent(KeyEvent event) {
+				if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+					checkWord();
+				}
+				return false;
+			}
+		});
 		resetBoard.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -361,8 +354,7 @@ public class BoggleFrame extends JFrame {
 				score1.setText("Score: ???");
 				wordListArea.setText("");
 				words.clear();
-				JOptionPane.showMessageDialog(null, "Press enter to begin",
-						"Player 2", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Press enter to begin", "Player 2", JOptionPane.PLAIN_MESSAGE);
 				interval = 181;
 				timer.start();
 				return;
@@ -395,24 +387,19 @@ public class BoggleFrame extends JFrame {
 				boggleBoard[row][col].setForeground(Color.BLUE);
 				boggleBoard[row][col].setBackground(Color.WHITE);
 				boggleBoard[row][col].setOpaque(true);
-				boggleBoard[row][col].setBorder(new LineBorder(Color.BLUE, 10,
-						true));
+				boggleBoard[row][col].setBorder(new LineBorder(Color.BLUE, 10, true));
 				final int i = row;
 				final int j = col;
 				boggleBoard[row][col].addMouseListener(new MouseListener() {
 
 					public void mouseClicked(MouseEvent arg0) {
-						wordTextField.setText(wordTextField.getText()
-								+ logic.getValueOfCell(i, j));
-						boggleBoard[i][j].setBorder(new LineBorder(Color.RED,
-								10, true));
+						wordTextField.setText(wordTextField.getText() + logic.getValueOfCell(i, j));
+						boggleBoard[i][j].setBorder(new LineBorder(Color.GREEN, 10, true));
 
 						// play click sound
 						try {
 							AudioInputStream audioInputStream = AudioSystem
-									.getAudioInputStream(new File(getClass()
-											.getResource("/click.wav")
-											.getFile()));
+									.getAudioInputStream(new File(getClass().getResource("/click.wav").getFile()));
 							Clip clip = AudioSystem.getClip();
 							clip.open(audioInputStream);
 							clip.start();
@@ -430,7 +417,6 @@ public class BoggleFrame extends JFrame {
 					}
 
 					public void mouseExited(MouseEvent arg0) {
-						boggleBoard[i][j].setBorder(boardExitedBorder);
 					}
 
 					public void mousePressed(MouseEvent arg0) {
