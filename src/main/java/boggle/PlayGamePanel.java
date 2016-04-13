@@ -1,12 +1,10 @@
 package boggle;
 
-import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 public class PlayGamePanel extends JPanel {
@@ -20,12 +18,12 @@ public class PlayGamePanel extends JPanel {
 	public PlayGamePanel() {
 
 		try {
-			image = ImageIO.read(getClass().getResourceAsStream("/boggleImage2.jpg"));
+			image = ImageIO.read(getClass().getResourceAsStream("/startBackground.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		setLayout(new BorderLayout());
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 	}
 
