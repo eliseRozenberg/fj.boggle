@@ -195,6 +195,7 @@ public class BoggleFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 
 				resetBoard();
+				wordTextField.requestFocus();
 
 			}
 
@@ -205,7 +206,7 @@ public class BoggleFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 
 				rotateMatrixRight();
-
+				wordTextField.requestFocus();
 			}
 
 		});
@@ -213,6 +214,7 @@ public class BoggleFrame extends JFrame {
 		pauseButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
+				wordTextField.requestFocus();
 
 				if (paused) {
 
@@ -267,6 +269,7 @@ public class BoggleFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 
 				checkWord();
+				wordTextField.requestFocus();
 
 			}
 
@@ -577,7 +580,7 @@ public class BoggleFrame extends JFrame {
 		wordListArea.setForeground(Color.BLACK);
 		wordListArea.setFont(fontTwo);
 		wordListArea.setEditable(false);
-		//wordListArea.setPreferredSize(new Dimension(200, 50));
+		// wordListArea.setPreferredSize(new Dimension(200, 50));
 
 		resetBoard.setBackground(new Color(204, 204, 255));
 		resetBoard.setForeground(Color.BLUE);
