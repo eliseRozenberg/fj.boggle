@@ -25,6 +25,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -36,6 +37,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import com.google.inject.Inject;
@@ -83,6 +85,9 @@ public class BoggleFrame extends JFrame {
 	private final ImageIcon checkImage;
 	private final ImageIcon xImage;
 	private final JLabel pauseLabel;
+
+	private final Border boardEnteredBorder, boardExitedBorder,
+			rotateEnteredBorder, rotateExitedBorder;
 
 	@Inject
 	public BoggleFrame(int players) {
@@ -134,7 +139,18 @@ public class BoggleFrame extends JFrame {
 			}
 		}
 
-		letterFont = new Font("Calibri", Font.BOLD, 50);
+		letterFont = (new Font("Calibri", Font.BOLD, 50));
+
+		// boggleIcon = new
+		// ImageIcon(getClass().getResource("/boggleMessage.png"));
+
+		boardEnteredBorder = BorderFactory.createMatteBorder(12, 12, 8, 8,
+				Color.blue);
+		boardExitedBorder = new LineBorder(Color.BLUE, 10, true);
+		rotateEnteredBorder = BorderFactory.createMatteBorder(3, 3, 0, 0,
+				Color.blue);
+		rotateExitedBorder = new LineBorder(Color.BLUE, 1, true);
+
 		words = new ArrayList<String>();
 		copy = new String[4][4];
 		paused = false;
@@ -410,9 +426,11 @@ public class BoggleFrame extends JFrame {
 					}
 
 					public void mouseEntered(MouseEvent arg0) {
+						boggleBoard[i][j].setBorder(boardEnteredBorder);
 					}
 
 					public void mouseExited(MouseEvent arg0) {
+						boggleBoard[i][j].setBorder(boardExitedBorder);
 					}
 
 					public void mousePressed(MouseEvent arg0) {
