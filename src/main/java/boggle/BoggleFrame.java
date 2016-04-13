@@ -51,7 +51,6 @@ public class BoggleFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private BoggleThread thread;
 	private final Logic logic;
-	private Cell[][] boggle;
 	private Timer timer;
 
 	private final Font letterFont;
@@ -120,7 +119,7 @@ public class BoggleFrame extends JFrame {
 		correctLabel = new JLabel();
 		pauseLabel = new JLabel("GAME PAUSED", JLabel.CENTER);
 		logic = new Logic();
-		boggle = logic.fillBoard();
+		logic.fillBoard();
 
 		blankImage = new ImageIcon(new ImageIcon(getClass().getResource(
 				"/blank.png")).getImage().getScaledInstance(60, 60,
@@ -385,10 +384,10 @@ public class BoggleFrame extends JFrame {
 
 	public void fillBoard() {
 
-		boggle = logic.fillBoard();
+		logic.fillBoard();
 		for (int row = 0; row < 4; row++) {
 			for (int col = 0; col < 4; col++) {
-				boggleBoard[row][col].setText(boggle[row][col].getValue());
+				boggleBoard[row][col].setText(logic.getValueOfCell(row, col));
 				boggleBoard[row][col].setHorizontalAlignment(JLabel.CENTER);
 				boggleBoard[row][col].setVerticalAlignment(JLabel.CENTER);
 				boggleBoard[row][col].setFont(letterFont);
@@ -552,14 +551,14 @@ public class BoggleFrame extends JFrame {
 		wordTextField.setText("");
 		for (int r = 0; r < 4; r++) {
 			for (int c = 0; c < 4; c++) {
-				copy[c][4 - 1 - r] = boggle[r][c].getValue();
+				copy[c][4 - 1 - r] = logic.getValueOfCell(r, c);
 
 			}
 		}
 		for (int i = 0; i < copy.length; i++) {
 			for (int j = 0; j < copy[i].length; j++) {
 				Cell cell = new Cell(i, j, copy[i][j]);
-				boggle[i][j] = cell;
+				logic.setCell(i, j, cell);
 				boggleBoard[i][j].setText(copy[i][j]);
 			}
 		}
