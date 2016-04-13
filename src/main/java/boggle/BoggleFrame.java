@@ -33,8 +33,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.Border;
@@ -84,7 +86,7 @@ public class BoggleFrame extends JFrame {
 	private final ImageIcon checkImage;
 	private final ImageIcon xImage;
 	private final JLabel pauseLabel;
-
+	private JScrollPane scrollPane;
 	private final Border boardClickedBorder, boardEnteredBorder, boardExitedBorder, rotateEnteredBorder,
 			rotateExitedBorder;
 
@@ -104,6 +106,8 @@ public class BoggleFrame extends JFrame {
 		rightPanel = new JPanel();
 		scorePanel = new JPanel();
 		wordListArea = new JTextArea();
+		scrollPane = new JScrollPane(wordListArea);
+
 		resetBoard = new JButton("Reset Board!");
 		rotateBoard = new JButton("ROTATE");
 		pauseButton = new JButton("PAUSE");
@@ -413,7 +417,8 @@ public class BoggleFrame extends JFrame {
 		panel.add(correctLabel);
 		panel.add(wordTextField);
 		leftPanel.add(panel, BorderLayout.SOUTH);
-		leftPanel.add(wordListArea, BorderLayout.CENTER);
+		// leftPanel.add(wordListArea, BorderLayout.CENTER);
+		leftPanel.add(scrollPane, BorderLayout.CENTER);
 		leftPanel.add(resetBoard, BorderLayout.NORTH);
 
 		container.add(rightPanel, BorderLayout.CENTER);
@@ -567,11 +572,12 @@ public class BoggleFrame extends JFrame {
 		status.setForeground(Color.WHITE);
 		status.setText("hhhel");
 
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		wordListArea.setBackground(Color.WHITE);
 		wordListArea.setForeground(Color.BLACK);
 		wordListArea.setFont(fontTwo);
 		wordListArea.setEditable(false);
-		wordListArea.setPreferredSize(new Dimension(200, 50));
+		//wordListArea.setPreferredSize(new Dimension(200, 50));
 
 		resetBoard.setBackground(new Color(204, 204, 255));
 		resetBoard.setForeground(Color.BLUE);
