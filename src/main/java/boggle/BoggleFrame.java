@@ -9,6 +9,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.KeyEventPostProcessor;
 import java.awt.KeyboardFocusManager;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -99,8 +100,7 @@ public class BoggleFrame extends JFrame {
 	private final ImageIcon xImage;
 	private final JLabel pauseLabel;
 	private JScrollPane scrollPane;
-	private final Border boardClickedBorder, boardEnteredBorder, boardExitedBorder, rotateEnteredBorder,
-			rotateExitedBorder;
+	private final Border boardClickedBorder, boardEnteredBorder, boardExitedBorder;
 	private DocumentFilter filter;
 
 	@Inject
@@ -160,8 +160,7 @@ public class BoggleFrame extends JFrame {
 		boardClickedBorder = new LineBorder(Color.GREEN, 10, true);
 		boardEnteredBorder = BorderFactory.createMatteBorder(12, 12, 8, 8, Color.blue);
 		boardExitedBorder = new LineBorder(Color.blue, 10, true);
-		rotateEnteredBorder = BorderFactory.createMatteBorder(3, 3, 0, 0, Color.blue);
-		rotateExitedBorder = new LineBorder(Color.BLUE, 1, true);
+
 		filter = new UppercaseDocumentFilter();
 		words = new ArrayList<String>();
 		copy = new String[4][4];
@@ -431,6 +430,9 @@ public class BoggleFrame extends JFrame {
 		if (interval == 0) {
 			endRound();
 			return 0;
+		}
+		if (interval <= 5) {
+			Toolkit.getDefaultToolkit().beep();
 		}
 		return --interval;
 	}
