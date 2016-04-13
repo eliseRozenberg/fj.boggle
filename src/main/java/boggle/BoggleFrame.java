@@ -34,8 +34,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.Border;
@@ -86,7 +88,7 @@ public class BoggleFrame extends JFrame {
 	private final ImageIcon checkImage;
 	private final ImageIcon xImage;
 	private final JLabel pauseLabel;
-
+	private final JScrollPane scrollPane;
 	private final Border boardClickedBorder, boardEnteredBorder,
 			boardExitedBorder, rotateEnteredBorder, rotateExitedBorder;
 
@@ -107,6 +109,8 @@ public class BoggleFrame extends JFrame {
 		rightPanel = new JPanel();
 		scorePanel = new JPanel();
 		wordListArea = new JTextArea();
+		scrollPane = new JScrollPane(wordListArea);
+
 		resetBoard = new JButton("Reset Board!");
 		rotateBoard = new JButton("ROTATE");
 		pauseButton = new JButton("PAUSE");
@@ -205,6 +209,9 @@ public class BoggleFrame extends JFrame {
 
 			public void actionPerformed(ActionEvent arg0) {
 				resetBoard();
+
+				wordTextField.requestFocus();
+
 			}
 		});
 
@@ -212,11 +219,17 @@ public class BoggleFrame extends JFrame {
 
 			public void actionPerformed(ActionEvent arg0) {
 				rotateMatrixRight();
+
+				wordTextField.requestFocus();
+
 			}
 		});
 
 		pauseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
+				wordTextField.requestFocus();
+
 				if (paused) {
 					rightPanel.remove(pauseLabel);
 					rightPanel.add(boardPanel, BorderLayout.CENTER);
@@ -247,6 +260,8 @@ public class BoggleFrame extends JFrame {
 
 			public void actionPerformed(ActionEvent arg0) {
 				checkWord();
+
+				wordTextField.requestFocus();
 			}
 		});
 
@@ -324,26 +339,32 @@ public class BoggleFrame extends JFrame {
 		}
 	}
 
-	public void addScore(int amt) {
-
+	public int addScore(int amt) {
+		int points = 0;
 		// it is only likely that the word will be from 3-8
 		switch (amt) {
 		case 3:
+			points = 1;
 			total += 1;
 			break;
 		case 4:
+			points = 2;
 			total += 2;
 			break;
 		case 5:
+			points = 3;
 			total += 3;
 			break;
 		case 6:
+			points = 4;
 			total += 4;
 			break;
 		case 7:
+			points = 5;
 			total += 5;
 			break;
 		case 8:
+			points = 6;
 			total += 6;
 			break;
 		}
@@ -352,6 +373,7 @@ public class BoggleFrame extends JFrame {
 		} else {
 			score2.setText("Score 2: " + total);
 		}
+		return points;
 	}
 
 	private void addTimer() {
@@ -386,7 +408,8 @@ public class BoggleFrame extends JFrame {
 		panel.add(correctLabel);
 		panel.add(wordTextField);
 		leftPanel.add(panel, BorderLayout.SOUTH);
-		leftPanel.add(wordListArea, BorderLayout.CENTER);
+		// leftPanel.add(wordListArea, BorderLayout.CENTER);
+		leftPanel.add(scrollPane, BorderLayout.CENTER);
 		leftPanel.add(resetBoard, BorderLayout.NORTH);
 
 		container.add(rightPanel, BorderLayout.CENTER);
@@ -394,9 +417,17 @@ public class BoggleFrame extends JFrame {
 		container.add(leftPanel, BorderLayout.WEST);
 	}
 
-	public void appendWord(String word) {
+	public void appendWord(String word, int points) {
 		words.add(word);
-		wordListArea.append(word.toUpperCase() + "\n");
+		if (points == 1) {
+			wordListArea.append(" " + points + "    " + word.toUpperCase()
+					+ "\n");
+
+		} else {
+			wordListArea.append(" " + points + "   " + word.toUpperCase()
+					+ "\n");
+
+		}
 		wordTextField.setText("");
 	}
 
@@ -536,11 +567,13 @@ public class BoggleFrame extends JFrame {
 		status.setForeground(Color.WHITE);
 		status.setText("hhhel");
 
+		scrollPane
+				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		wordListArea.setBackground(Color.WHITE);
 		wordListArea.setForeground(Color.BLACK);
 		wordListArea.setFont(fontTwo);
 		wordListArea.setEditable(false);
-		wordListArea.setPreferredSize(new Dimension(200, 50));
+		// wordListArea.setPreferredSize(new Dimension(200, 50));
 
 		resetBoard.setBackground(new Color(204, 204, 255));
 		resetBoard.setForeground(Color.BLUE);
