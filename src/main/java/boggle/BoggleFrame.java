@@ -41,6 +41,16 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.DocumentFilter;
+import javax.swing.text.Element;
+import javax.swing.text.Position;
+import javax.swing.text.Segment;
 
 import com.google.inject.Inject;
 
@@ -89,7 +99,7 @@ public class BoggleFrame extends JFrame {
 	private JScrollPane scrollPane;
 	private final Border boardClickedBorder, boardEnteredBorder, boardExitedBorder, rotateEnteredBorder,
 			rotateExitedBorder;
-
+	private  DocumentFilter filter ;
 	@Inject
 	public BoggleFrame(int players) {
 		setTitle("BOGGLE");
@@ -138,6 +148,7 @@ public class BoggleFrame extends JFrame {
 			}
 		}
 
+
 		letterFont = (new Font("Calibri", Font.BOLD, 50));
 
 		// boggleIcon = new
@@ -148,7 +159,7 @@ public class BoggleFrame extends JFrame {
 		boardExitedBorder = new LineBorder(Color.blue, 10, true);
 		rotateEnteredBorder = BorderFactory.createMatteBorder(3, 3, 0, 0, Color.blue);
 		rotateExitedBorder = new LineBorder(Color.BLUE, 1, true);
-
+		filter = new UppercaseDocumentFilter();
 		words = new ArrayList<String>();
 		copy = new String[4][4];
 		paused = false;
@@ -565,6 +576,8 @@ public class BoggleFrame extends JFrame {
 		wordTextField.setPreferredSize(new Dimension(50, 40));
 		wordTextField.setFont(font);
 		wordTextField.setFocusable(true);
+		AbstractDocument document = (AbstractDocument) wordTextField.getDocument();
+		document.setDocumentFilter(filter);
 
 		score1.setFont(font);
 		score1.setForeground(Color.WHITE);
