@@ -47,10 +47,9 @@ public class BoggleThread extends Thread {
 		}
 
 		if (!caught) {
-
-			frame.appendWord(word);
 			int size = word.length();
-			frame.addScore(size);
+			int points = frame.addScore(size);
+			frame.appendWord(word, points);
 			frame.setWordValid();
 		}
 	}
