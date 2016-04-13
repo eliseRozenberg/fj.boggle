@@ -180,24 +180,37 @@ public class BoggleFrame extends JFrame {
 				.addKeyEventPostProcessor(new KeyEventPostProcessor() {
 
 					public boolean postProcessKeyEvent(KeyEvent event) {
+
 						if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+
 							checkWord();
+
 						}
+
 						return false;
+
 					}
+
 				});
+
 		resetBoard.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
+
 				resetBoard();
+
 			}
+
 		});
 
 		rotateBoard.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
+
 				rotateMatrixRight();
+
 			}
+
 		});
 
 		pauseButton.addActionListener(new ActionListener() {
@@ -205,35 +218,139 @@ public class BoggleFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 
 				if (paused) {
+
 					rightPanel.remove(pauseLabel);
+
 					rightPanel.add(boardPanel, BorderLayout.CENTER);
+
 					pauseButton.setText("PAUSE");
+
 					paused = false;
+
 					resetBoard.setEnabled(true);
+
 					wordTextField.setEnabled(true);
+
 					rotateBoard.setEnabled(true);
+
 					repaint();
+
 					return;
+
 				}
+
 				if (!paused) {
+
 					rightPanel.remove(boardPanel);
+
 					rightPanel.add(pauseLabel, BorderLayout.CENTER);
+
 					pauseButton.setText("RESUME");
+
 					paused = true;
+
 					resetBoard.setEnabled(false);
+
 					wordTextField.setEnabled(false);
+
 					rotateBoard.setEnabled(false);
+
 					repaint();
+
 					return;
+
 				}
+
 			}
+
 		});
+
 		wordTextField.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
+
 				checkWord();
+
 			}
+
 		});
+
+		for (int row = 0; row < 4; row++) {
+
+			for (int col = 0; col < 4; col++) {
+
+				final int i = row;
+
+				final int j = col;
+
+				boggleBoard[row][col].addMouseListener(new MouseListener() {
+
+					public void mouseClicked(MouseEvent arg0) {
+
+						wordTextField.setText(wordTextField.getText()
+								+ logic.getValueOfCell(i, j));
+
+						boggleBoard[i][j].setBorder(boardClickedBorder);
+
+						logic.setIsClicked(i, j, true);
+
+						// play click sound
+
+						try {
+
+							AudioInputStream audioInputStream = AudioSystem
+
+							.getAudioInputStream(new File(getClass()
+									.getResource("/click.wav").getFile()));
+
+							Clip clip = AudioSystem.getClip();
+
+							clip.open(audioInputStream);
+
+							clip.start();
+
+						} catch (UnsupportedAudioFileException e) {
+
+							e.printStackTrace();
+
+						} catch (IOException e) {
+
+							e.printStackTrace();
+
+						} catch (LineUnavailableException e) {
+
+							e.printStackTrace();
+
+						}
+
+					}
+
+					public void mouseEntered(MouseEvent arg0) {
+
+						if (logic.getIsClicked(i, j)) {
+							boggleBoard[i][j].setBorder(boardClickedBorder);
+						} else {
+
+							boggleBoard[i][j].setBorder(boardEnteredBorder);
+						}
+					}
+
+					public void mouseExited(MouseEvent arg0) {
+
+						if (!logic.getIsClicked(i, j)) {
+							boggleBoard[i][j].setBorder(boardExitedBorder);
+						}
+					}
+
+					public void mousePressed(MouseEvent arg0) {
+					}
+
+					public void mouseReleased(MouseEvent arg0) {
+
+					}
+				});
+			}
+		}
 	}
 
 	public void addScore(int amt) {
@@ -380,68 +497,32 @@ public class BoggleFrame extends JFrame {
 	public void fillBoard() {
 
 		logic.fillBoard();
+
 		for (int row = 0; row < 4; row++) {
+
 			for (int col = 0; col < 4; col++) {
+
 				boggleBoard[row][col].setText(logic.getValueOfCell(row, col));
+
 				boggleBoard[row][col].setHorizontalAlignment(JLabel.CENTER);
+
 				boggleBoard[row][col].setVerticalAlignment(JLabel.CENTER);
+
 				boggleBoard[row][col].setFont(letterFont);
+
 				boggleBoard[row][col].setForeground(Color.BLUE);
+
 				boggleBoard[row][col].setBackground(Color.WHITE);
+
 				boggleBoard[row][col].setOpaque(true);
+
 				boggleBoard[row][col].setBorder(new LineBorder(Color.BLUE, 10,
 						true));
-				final int i = row;
-				final int j = col;
-				boggleBoard[row][col].addMouseListener(new MouseListener() {
 
-					public void mouseClicked(MouseEvent arg0) {
-						wordTextField.setText(wordTextField.getText()
-								+ logic.getValueOfCell(i, j));
-						boggleBoard[i][j].setBorder(boardClickedBorder);
-						logic.setIsClicked(i, j, true);
-						// play click sound
-						try {
-							AudioInputStream audioInputStream = AudioSystem
-									.getAudioInputStream(new File(getClass()
-											.getResource("/click.wav")
-											.getFile()));
-							Clip clip = AudioSystem.getClip();
-							clip.open(audioInputStream);
-							clip.start();
-						} catch (UnsupportedAudioFileException e) {
-							e.printStackTrace();
-						} catch (IOException e) {
-							e.printStackTrace();
-						} catch (LineUnavailableException e) {
-							e.printStackTrace();
-						}
-					}
-
-					public void mouseEntered(MouseEvent arg0) {
-						if (logic.getIsClicked(i, j)) {
-							boggleBoard[i][j].setBorder(boardClickedBorder);
-
-						} else {
-							boggleBoard[i][j].setBorder(boardEnteredBorder);
-
-						}
-					}
-
-					public void mouseExited(MouseEvent arg0) {
-						if (!logic.getIsClicked(i, j)) {
-							boggleBoard[i][j].setBorder(boardExitedBorder);
-						}
-					}
-
-					public void mousePressed(MouseEvent arg0) {
-					}
-
-					public void mouseReleased(MouseEvent arg0) {
-					}
-				});
 			}
+
 		}
+
 	}
 
 	private void format() {
