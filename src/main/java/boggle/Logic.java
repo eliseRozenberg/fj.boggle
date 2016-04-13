@@ -120,19 +120,23 @@ public class Logic {
 		return false;
 	}
 
-	public String getValueOfCell(int i, int j) {
-		return board[i][j].getValue();
+	public String getValueOfCell(int row, int column) {
+		return board[row][column].getValue();
 	}
 
 	public void setCell(int row, int column, Cell cell) {
 		board[row][column] = cell;
 	}
 
-	public void setIsClicked(int row, int col, boolean clicked) {
-		board[row][col].setIsClicked(clicked);
+	public void setIsClicked(int row, int column, boolean clicked) {
+		board[row][column].setIsClicked(clicked);
 	}
 
-	public boolean getIsClicked(int row, int col) {
-		return board[row][col].getIsClicked();
+	public boolean getIsClicked(int row, int column) {
+		return board[row][column].getIsClicked();
+	}
+
+	public Cell getCell(int row, int column) {
+		return board[row][column];
 	}
 }
