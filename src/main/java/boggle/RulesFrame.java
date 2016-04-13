@@ -28,8 +28,7 @@ public class RulesFrame extends JFrame {
 
 	private final StartFrame startFrame;
 	private JPanel buttonPanel;
-	private JLabel menuButton, leftButton, rightButton, circleLabel, pix,
-			heading1;
+	private JLabel menuButton, leftButton, rightButton, circleLabel, pix, heading1;
 	private final ImageIcon[] pictures;
 	private ImageIcon menu1, menu2;
 	private Border borderMenu, borderRight, borderExited;
@@ -44,8 +43,7 @@ public class RulesFrame extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
-		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg"))
-				.getImage());
+		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg")).getImage());
 		setBackground(Color.white);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -78,28 +76,23 @@ public class RulesFrame extends JFrame {
 		pix.setBackground(Color.white);
 
 		leftButton = new JLabel();
-		leftButton.setIcon(new ImageIcon(formatIcon(100, 100, getClass()
-				.getResource("/left.png"))));
+		leftButton.setIcon(new ImageIcon(formatIcon(100, 100, getClass().getResource("/left.png"))));
 		leftButton.setPreferredSize(new Dimension(100, 100));
 		leftButton.setBackground(Color.white);
 		leftButton.setBorder(borderRight);
 
 		rightButton = new JLabel();
 		rightButton.setPreferredSize(new Dimension(100, 100));
-		rightButton.setIcon(new ImageIcon(formatIcon(100, 100, getClass()
-				.getResource("/right.png"))));
+		rightButton.setIcon(new ImageIcon(formatIcon(100, 100, getClass().getResource("/right.png"))));
 		rightButton.setBackground(Color.white);
 
 		circleLabel = new JLabel();
-		circleLabel.setIcon(new ImageIcon(formatIcon(65, 65, getClass()
-				.getResource("/circle2.jpg"))));
+		circleLabel.setIcon(new ImageIcon(formatIcon(65, 65, getClass().getResource("/circle2.jpg"))));
 		circleLabel.setPreferredSize(new Dimension(100, 100));
 		circleLabel.setBackground(Color.white);
 
-		menu1 = new ImageIcon(formatIcon(180, 140,
-				getClass().getResource("/menu.png")));
-		menu2 = new ImageIcon(formatIcon(180, 140,
-				getClass().getResource("/menu2.JPG")));
+		menu1 = new ImageIcon(formatIcon(180, 140, getClass().getResource("/menu.png")));
+		menu2 = new ImageIcon(formatIcon(180, 140, getClass().getResource("/menu2.JPG")));
 
 		menuButton = new JLabel();
 		menuButton.setPreferredSize(new Dimension(180, 150));
@@ -125,16 +118,14 @@ public class RulesFrame extends JFrame {
 
 	public Image formatIcon(int width, Integer height, URL image) {
 		ImageIcon icon = new ImageIcon(image);
-		Image img = icon.getImage().getScaledInstance(width, height,
-				java.awt.Image.SCALE_SMOOTH);
+		Image img = icon.getImage().getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
 		return img;
 	}
 
 	public void createImages() {
 		for (int i = 0; i < pictures.length; i++) {
-			pictures[i] = new ImageIcon(formatIcon(getWidth(),
-					getHeight() - 190,
-					getClass().getResource("/pix" + (i + 1) + ".JPG")));
+			pictures[i] = new ImageIcon(
+					formatIcon(getWidth(), getHeight() - 190, getClass().getResource("/pix" + (i + 1) + ".JPG")));
 		}
 	}
 
@@ -148,7 +139,7 @@ public class RulesFrame extends JFrame {
 			}
 
 			public void mousePressed(MouseEvent arg0) {
-				startFrame.playClickSound();
+
 			}
 
 			public void mouseExited(MouseEvent arg0) {
@@ -159,6 +150,7 @@ public class RulesFrame extends JFrame {
 			public void mouseEntered(MouseEvent arg0) {
 				menuButton.setBorder(borderMenu);
 				menuButton.setIcon(menu1);
+				startFrame.playClickSound();
 			}
 
 			public void mouseClicked(MouseEvent arg0) {
@@ -177,7 +169,7 @@ public class RulesFrame extends JFrame {
 			}
 
 			public void mousePressed(MouseEvent arg0) {
-				startFrame.playClickSound();
+
 			}
 
 			public void mouseExited(MouseEvent arg0) {
@@ -185,7 +177,7 @@ public class RulesFrame extends JFrame {
 			}
 
 			public void mouseEntered(MouseEvent arg0) {
-
+				startFrame.playClickSound();
 				leftButton.setBorder(borderExited);
 			}
 
@@ -214,6 +206,7 @@ public class RulesFrame extends JFrame {
 
 			public void mouseEntered(MouseEvent arg0) {
 				rightButton.setBorder(borderRight);
+				startFrame.playClickSound();
 			}
 
 			public void mouseClicked(MouseEvent arg0) {
