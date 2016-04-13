@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -27,6 +28,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -42,16 +44,8 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.UndoableEditListener;
 import javax.swing.text.AbstractDocument;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
-import javax.swing.text.Element;
-import javax.swing.text.Position;
-import javax.swing.text.Segment;
 
 import com.google.inject.Inject;
 
@@ -73,6 +67,7 @@ public class BoggleFrame extends JFrame {
 	private final JPanel leftPanel;
 	private final JPanel topPanel;
 	private final JPanel rightPanel;
+	private final JPanel bottomPanel;
 	private final JPanel scorePanel;
 	private final JTextField wordTextField;
 	private final JTextArea wordListArea;
@@ -98,10 +93,10 @@ public class BoggleFrame extends JFrame {
 	private final ImageIcon checkImage;
 	private final ImageIcon xImage;
 	private final JLabel pauseLabel;
-	private JScrollPane scrollPane;
-	private final Border boardClickedBorder, boardEnteredBorder, boardExitedBorder, rotateEnteredBorder,
-			rotateExitedBorder;
-	private DocumentFilter filter;
+	private final JScrollPane scrollPane;
+	private final Border boardClickedBorder, boardEnteredBorder,
+			boardExitedBorder, rotateEnteredBorder, rotateExitedBorder;
+	private final DocumentFilter filter;
 
 	@Inject
 	public BoggleFrame(int players) {
@@ -110,13 +105,15 @@ public class BoggleFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setResizable(false);
-		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg")).getImage());
+		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg"))
+				.getImage());
 
 		container = getContentPane();
 		boardPanel = new JPanel();
 		topPanel = new JPanel();
 		leftPanel = new JPanel();
 		rightPanel = new JPanel();
+		bottomPanel = new JPanel();
 		scorePanel = new JPanel();
 		wordListArea = new JTextArea();
 		scrollPane = new JScrollPane(wordListArea);
@@ -124,7 +121,8 @@ public class BoggleFrame extends JFrame {
 		resetBoard = new JButton("Reset Board!");
 		rotateBoard = new JButton("ROTATE");
 		pauseButton = new JButton("PAUSE");
-		imageLabel = new JLabel(new ImageIcon(getClass().getResource("/boggle.png")));
+		imageLabel = new JLabel(new ImageIcon(getClass().getResource(
+				"/boggle.png")));
 		timerLabel = new JLabel();
 		score1 = new JLabel("Score 1: " + total);
 		score2 = new JLabel("Score 2: " + total);
@@ -137,12 +135,14 @@ public class BoggleFrame extends JFrame {
 		logic = new Logic();
 		logic.fillBoard();
 
-		blankImage = new ImageIcon(new ImageIcon(getClass().getResource("/blank.png")).getImage().getScaledInstance(60,
-				60, Image.SCALE_SMOOTH));
-		checkImage = new ImageIcon(new ImageIcon(getClass().getResource("/check.jpg")).getImage().getScaledInstance(60,
-				60, Image.SCALE_SMOOTH));
-		xImage = new ImageIcon(new ImageIcon(getClass().getResource("/x.jpg")).getImage().getScaledInstance(60, 60,
+		blankImage = new ImageIcon(new ImageIcon(getClass().getResource(
+				"/blank.png")).getImage().getScaledInstance(60, 60,
 				Image.SCALE_SMOOTH));
+		checkImage = new ImageIcon(new ImageIcon(getClass().getResource(
+				"/check.jpg")).getImage().getScaledInstance(60, 60,
+				Image.SCALE_SMOOTH));
+		xImage = new ImageIcon(new ImageIcon(getClass().getResource("/x.jpg"))
+				.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH));
 
 		for (int row = 0; row < 4; row++) {
 			for (int col = 0; col < 4; col++) {
@@ -158,9 +158,11 @@ public class BoggleFrame extends JFrame {
 		// ImageIcon(getClass().getResource("/boggleMessage.png"));
 
 		boardClickedBorder = new LineBorder(Color.GREEN, 10, true);
-		boardEnteredBorder = BorderFactory.createMatteBorder(12, 12, 8, 8, Color.blue);
+		boardEnteredBorder = BorderFactory.createMatteBorder(12, 12, 8, 8,
+				Color.blue);
 		boardExitedBorder = new LineBorder(Color.blue, 10, true);
-		rotateEnteredBorder = BorderFactory.createMatteBorder(3, 3, 0, 0, Color.blue);
+		rotateEnteredBorder = BorderFactory.createMatteBorder(3, 3, 0, 0,
+				Color.blue);
 		rotateExitedBorder = new LineBorder(Color.BLUE, 1, true);
 		filter = new UppercaseDocumentFilter();
 		words = new ArrayList<String>();
@@ -188,22 +190,27 @@ public class BoggleFrame extends JFrame {
 
 		setWindowListener();
 
-		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventPostProcessor(new KeyEventPostProcessor() {
+		KeyboardFocusManager.getCurrentKeyboardFocusManager()
+				.addKeyEventPostProcessor(new KeyEventPostProcessor() {
 
-			public boolean postProcessKeyEvent(KeyEvent event) {
+					public boolean postProcessKeyEvent(KeyEvent event) {
 
-				if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-					checkWord();
-				} else if (event.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-					if (!cellsStack.isEmpty() && ((cellsStack.size() - 1) == wordTextField.getText().length())) {
-						Cell cell = cellsStack.pop();
-						boggleBoard[cell.getRow()][cell.getCol()].setBorder(new LineBorder(Color.BLUE, 10, true));
-						cell.setIsClicked(false);
+						if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+							checkWord();
+						} else if (event.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+							if (!cellsStack.isEmpty()
+									&& ((cellsStack.size() - 1) == wordTextField
+											.getText().length())) {
+								Cell cell = cellsStack.pop();
+								boggleBoard[cell.getRow()][cell.getCol()]
+										.setBorder(new LineBorder(Color.BLUE,
+												10, true));
+								cell.setIsClicked(false);
+							}
+						}
+						return false;
 					}
-				}
-				return false;
-			}
-		});
+				});
 
 		resetBoard.addActionListener(new ActionListener() {
 
@@ -274,7 +281,8 @@ public class BoggleFrame extends JFrame {
 					public void mouseClicked(MouseEvent arg0) {
 
 						if (!cellsStack.contains(logic.getCell(i, j))) {
-							wordTextField.setText(wordTextField.getText() + logic.getValueOfCell(i, j));
+							wordTextField.setText(wordTextField.getText()
+									+ logic.getValueOfCell(i, j));
 							cellsStack.push(logic.getCell(i, j));
 							boggleBoard[i][j].setBorder(boardClickedBorder);
 							logic.setIsClicked(i, j, true);
@@ -284,7 +292,8 @@ public class BoggleFrame extends JFrame {
 
 								AudioInputStream audioInputStream = AudioSystem
 
-										.getAudioInputStream(new File(getClass().getResource("/click.wav").getFile()));
+								.getAudioInputStream(new File(getClass()
+										.getResource("/click.wav").getFile()));
 
 								Clip clip = AudioSystem.getClip();
 
@@ -398,30 +407,34 @@ public class BoggleFrame extends JFrame {
 
 		rightPanel.add(pauseButton, BorderLayout.NORTH);
 		rightPanel.add(boardPanel, BorderLayout.CENTER);
-		rightPanel.add(rotateBoard, BorderLayout.SOUTH);
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.setBackground(Color.WHITE);
 		panel.add(correctLabel);
-		panel.add(wordTextField);
 		leftPanel.add(panel, BorderLayout.SOUTH);
-		// leftPanel.add(wordListArea, BorderLayout.CENTER);
 		leftPanel.add(scrollPane, BorderLayout.CENTER);
 		leftPanel.add(resetBoard, BorderLayout.NORTH);
+
+		bottomPanel.add(wordTextField);
+		bottomPanel.add(Box.createRigidArea(new Dimension(100, 0)));
+		bottomPanel.add(rotateBoard);
 
 		container.add(rightPanel, BorderLayout.CENTER);
 		container.add(topPanel, BorderLayout.NORTH);
 		container.add(leftPanel, BorderLayout.WEST);
+		container.add(bottomPanel, BorderLayout.SOUTH);
 	}
 
 	public void appendWord(String word, int points) {
 		words.add(word);
 		if (points == 1) {
-			wordListArea.append(" " + points + "    " + word.toUpperCase() + "\n");
+			wordListArea.append(" " + points + "    " + word.toUpperCase()
+					+ "\n");
 
 		} else {
-			wordListArea.append(" " + points + "   " + word.toUpperCase() + "\n");
+			wordListArea.append(" " + points + "   " + word.toUpperCase()
+					+ "\n");
 
 		}
 		wordTextField.setText("");
@@ -470,7 +483,8 @@ public class BoggleFrame extends JFrame {
 				score1.setText("Score: ???");
 				wordListArea.setText("");
 				words.clear();
-				JOptionPane.showMessageDialog(null, "Press enter to begin", "Player 2", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Press enter to begin",
+						"Player 2", JOptionPane.PLAIN_MESSAGE);
 				interval = 181;
 				timer.start();
 				return;
@@ -513,12 +527,10 @@ public class BoggleFrame extends JFrame {
 
 				boggleBoard[row][col].setOpaque(true);
 
-				boggleBoard[row][col].setBorder(new LineBorder(Color.BLUE, 10, true));
-
+				boggleBoard[row][col].setBorder(new LineBorder(Color.BLUE, 10,
+						true));
 			}
-
 		}
-
 	}
 
 	private void format() {
@@ -531,6 +543,7 @@ public class BoggleFrame extends JFrame {
 
 		leftPanel.setLayout(new BorderLayout());
 		rightPanel.setLayout(new BorderLayout());
+		bottomPanel.setLayout(new FlowLayout());
 
 		scorePanel.setBackground(Color.blue);
 		scorePanel.setLayout(new BoxLayout(scorePanel, BoxLayout.Y_AXIS));
@@ -551,7 +564,9 @@ public class BoggleFrame extends JFrame {
 		wordTextField.setPreferredSize(new Dimension(50, 40));
 		wordTextField.setFont(font);
 		wordTextField.setFocusable(true);
-		AbstractDocument document = (AbstractDocument) wordTextField.getDocument();
+		wordTextField.setColumns(10);
+		AbstractDocument document = (AbstractDocument) wordTextField
+				.getDocument();
 		document.setDocumentFilter(filter);
 
 		score1.setFont(font);
@@ -563,12 +578,12 @@ public class BoggleFrame extends JFrame {
 		status.setForeground(Color.WHITE);
 		status.setText("hhhel");
 
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane
+				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		wordListArea.setBackground(Color.WHITE);
 		wordListArea.setForeground(Color.BLACK);
 		wordListArea.setFont(fontTwo);
 		wordListArea.setEditable(false);
-		// wordListArea.setPreferredSize(new Dimension(200, 50));
 
 		resetBoard.setBackground(new Color(204, 204, 255));
 		resetBoard.setForeground(Color.BLUE);
@@ -624,7 +639,8 @@ public class BoggleFrame extends JFrame {
 		cellsStack.clear();
 		for (int row = 0; row < 4; row++) {
 			for (int col = 0; col < 4; col++) {
-				boggleBoard[row][col].setBorder(new LineBorder(Color.BLUE, 10, true));
+				boggleBoard[row][col].setBorder(new LineBorder(Color.BLUE, 10,
+						true));
 				logic.setIsClicked(row, col, false);
 			}
 		}
