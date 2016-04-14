@@ -95,6 +95,7 @@ public class BoggleFrame extends JFrame {
 	private final Border boardClickedBorder, boardEnteredBorder,
 			boardExitedBorder, rotateEnteredBorder, rotateExitedBorder;
 	private final DocumentFilter filter;
+	private boolean roundOver = false;
 
 	@Inject
 	public BoggleFrame(StartFrame frame, int players) {
@@ -196,7 +197,8 @@ public class BoggleFrame extends JFrame {
 
 					public boolean postProcessKeyEvent(KeyEvent event) {
 
-						if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+						if ((event.getKeyCode() == KeyEvent.VK_ENTER)
+								&& (!roundOver)) {
 							checkWord();
 						} else if (event.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 							if (!cellsStack.isEmpty()
@@ -335,7 +337,8 @@ public class BoggleFrame extends JFrame {
 
 					public void mouseEntered(MouseEvent arg0) {
 
-						if (logic.getIsClicked(i, j)) {
+						if (logic.getIsClicked(i, j)
+								|| !boggleBoard[i][j].isEnabled()) {
 							boggleBoard[i][j].setBorder(boardClickedBorder);
 						} else {
 
@@ -345,7 +348,8 @@ public class BoggleFrame extends JFrame {
 
 					public void mouseExited(MouseEvent arg0) {
 
-						if (!logic.getIsClicked(i, j)) {
+						if (!logic.getIsClicked(i, j)
+								|| !boggleBoard[i][j].isEnabled()) {
 							boggleBoard[i][j].setBorder(boardExitedBorder);
 						}
 					}
@@ -517,6 +521,7 @@ public class BoggleFrame extends JFrame {
 	}
 
 	public void endRound() {
+		roundOver = true;
 		timer.stop();
 		setStatus(2);
 		if (players == 2) {
@@ -555,7 +560,7 @@ public class BoggleFrame extends JFrame {
 		for (JLabel[] element : boggleBoard) {
 			for (JLabel element2 : element) {
 				element2.setEnabled(false);
-				element2.setBorder(new LineBorder(Color.GREEN, 10, true));
+				// element2.setBorder(new LineBorder(Color.GREEN, 10, true));
 			}
 		}
 
@@ -680,6 +685,7 @@ public class BoggleFrame extends JFrame {
 	}
 
 	public void resetBoard() {
+		roundOver = false;
 		wordTextField.setText("");
 		wordListArea.setText("");
 		words.clear();

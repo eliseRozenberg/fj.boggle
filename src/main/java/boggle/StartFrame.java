@@ -42,7 +42,8 @@ public class StartFrame extends JFrame {
 		setSize(600, 700);
 		setLocationRelativeTo(null);
 		setResizable(false);
-		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg")).getImage());
+		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg"))
+				.getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		addFormat();
@@ -96,7 +97,8 @@ public class StartFrame extends JFrame {
 		try {
 
 			AudioInputStream audioInputStream = AudioSystem
-					.getAudioInputStream(new File(getClass().getResource("/click.wav").getFile()));
+					.getAudioInputStream(new File(getClass().getResource(
+							"/click.wav").getFile()));
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
@@ -121,7 +123,6 @@ public class StartFrame extends JFrame {
 				boggleFrame.setPlayer(1);
 				boggleFrame.resetBoard();
 				boggleFrame.setVisible(true);
-
 			}
 
 			public void mousePressed(MouseEvent e) {
@@ -139,7 +140,6 @@ public class StartFrame extends JFrame {
 				singleButton.setForeground(colorEntered);
 				singleButton.setFont(font2);
 				singleButton.setText("         Single Player");
-
 			}
 
 			public void mouseClicked(MouseEvent e) {
@@ -152,7 +152,7 @@ public class StartFrame extends JFrame {
 				setVisible(false);
 				boggleFrame.setPlayer(2);
 				boggleFrame.resetBoard();
-				boggleFrame.setVisible(true);	
+				boggleFrame.setVisible(true);
 			}
 
 			public void mousePressed(MouseEvent e) {
