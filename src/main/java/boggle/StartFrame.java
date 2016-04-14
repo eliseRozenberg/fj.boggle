@@ -41,8 +41,7 @@ public class StartFrame extends JFrame {
 		setSize(600, 700);
 		setLocationRelativeTo(null);
 		setResizable(false);
-		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg"))
-				.getImage());
+		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg")).getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		addFormat();
@@ -94,8 +93,7 @@ public class StartFrame extends JFrame {
 		try {
 
 			AudioInputStream audioInputStream = AudioSystem
-					.getAudioInputStream(new File(getClass().getResource(
-							"/click.wav").getFile()));
+					.getAudioInputStream(new File(getClass().getResource("/click.wav").getFile()));
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
