@@ -405,7 +405,7 @@ public class BoggleFrame extends JFrame {
 
 				JOptionPane.showMessageDialog(null, "Press enter to begin", "Player 2", JOptionPane.PLAIN_MESSAGE,
 						boggleIcon);
-				interval = 15;
+				interval = 181;
 				timer.start();
 
 				return;
@@ -543,8 +543,8 @@ public class BoggleFrame extends JFrame {
 
 	public void getAudio(String name) {
 		try {
-			AudioInputStream audioInputStream = AudioSystem
-					.getAudioInputStream(new File(getClass().getResource(name).getFile()));
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(getClass().getResource(name)
+					.getFile()));
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
@@ -599,7 +599,7 @@ public class BoggleFrame extends JFrame {
 		}
 		total = 0;
 		turn = 1;
-		interval = 15;
+		interval = 181;
 		fillBoard();
 		wordTextField.setEnabled(true);
 		rotateBoard.setEnabled(true);
