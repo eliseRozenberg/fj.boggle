@@ -33,11 +33,10 @@ public class StartFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private StartPanel startPanel;
-	private HighScoreFrame highScoreFrame;
 	private BoggleFrame boggleFrame;
 	private RulesFrame rulesFrame;
 	private Container container;
-	private JLabel singleButton, doubleButton, rulesButton, highScoreButton;
+	private JLabel singleButton, doubleButton, rulesButton, quitbutton;
 	private Color colorExited, colorEntered;
 	private Font font1, font2;
 
@@ -63,7 +62,6 @@ public class StartFrame extends JFrame {
 		rulesFrame = new RulesFrame(this);
 		startPanel = new StartPanel();
 		boggleFrame = new BoggleFrame(this, 1);
-		highScoreFrame = new HighScoreFrame(this);
 
 		colorExited = new Color(255, 255, 255);
 		colorEntered = new Color(255, 255, 0);
@@ -85,16 +83,16 @@ public class StartFrame extends JFrame {
 		rulesButton.setForeground(colorExited);
 		rulesButton.setFont(font1);
 
-		highScoreButton = new JLabel("           High Scores");
-		highScoreButton.setPreferredSize(new Dimension(200, 40));
-		highScoreButton.setForeground(colorExited);
-		highScoreButton.setFont(font1);
+		quitbutton = new JLabel("           Quit Game");
+		quitbutton.setPreferredSize(new Dimension(200, 40));
+		quitbutton.setForeground(colorExited);
+		quitbutton.setFont(font1);
 
 		startPanel.add(Box.createRigidArea(new Dimension(00, 370)));
 		startPanel.add(singleButton);
 		startPanel.add(doubleButton);
 		startPanel.add(rulesButton);
-		startPanel.add(highScoreButton);
+		startPanel.add(quitbutton);
 		container.add(startPanel, BorderLayout.CENTER);
 
 	}
@@ -211,11 +209,10 @@ public class StartFrame extends JFrame {
 			}
 		});
 
-		highScoreButton.addMouseListener(new MouseListener() {
+		quitbutton.addMouseListener(new MouseListener() {
 
 			public void mouseReleased(MouseEvent e) {
-				setVisible(false);
-				highScoreFrame.setVisible(true);
+				System.exit(0);
 			}
 
 			public void mousePressed(MouseEvent e) {
@@ -223,16 +220,16 @@ public class StartFrame extends JFrame {
 			}
 
 			public void mouseExited(MouseEvent e) {
-				highScoreButton.setForeground(colorExited);
-				highScoreButton.setFont(font1);
-				highScoreButton.setText("           High Scores");
+				quitbutton.setForeground(colorExited);
+				quitbutton.setFont(font1);
+				quitbutton.setText("           Quit Game");
 			}
 
 			public void mouseEntered(MouseEvent e) {
 				playClickSound();
-				highScoreButton.setForeground(colorEntered);
-				highScoreButton.setFont(font2);
-				highScoreButton.setText("          High Scores");
+				quitbutton.setForeground(colorEntered);
+				quitbutton.setFont(font2);
+				quitbutton.setText("          Quit Game");
 			}
 
 			public void mouseClicked(MouseEvent e) {

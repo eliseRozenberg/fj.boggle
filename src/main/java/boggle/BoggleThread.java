@@ -11,7 +11,8 @@ import java.net.URL;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-@Singleton
+
+
 public class BoggleThread extends Thread {
 
 	private final String word;
@@ -30,18 +31,13 @@ public class BoggleThread extends Thread {
 	public void run() {
 
 		try {
-			URL dictionaryURL = new URL(
-					"https://en.wiktionary.org/w/api.php?action=query&format=json&titles="
-							+ word);
-
-			HttpURLConnection connection = (HttpURLConnection) dictionaryURL
-					.openConnection();
+			URL dictionaryURL = new URL("https://en.wiktionary.org/w/api.php?action=query&format=json&titles=" + word);
+			HttpURLConnection connection = (HttpURLConnection) dictionaryURL.openConnection();
 			InputStream input = connection.getInputStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					input));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+
 			Gson gson = new Gson();
-			WordExistsJson wordExists = gson.fromJson(reader,
-					WordExistsJson.class);
+			WordExistsJson wordExists = gson.fromJson(reader, WordExistsJson.class);
 
 			if (wordExists.getQuery().getPages().containsKey(-1)) {
 				frame.setWordInvalid();
