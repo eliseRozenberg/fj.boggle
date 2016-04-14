@@ -308,11 +308,6 @@ public class BoggleFrame extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				try {
-					new StartFrame().setVisible(true);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
 				setVisible(false);
 				startFrame.setVisible(true);
 				timer.stop();

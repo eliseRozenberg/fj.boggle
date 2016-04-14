@@ -239,7 +239,6 @@ public class StartFrame extends JFrame {
 	}
 
 	public static void main(String[] args) throws IOException {
-		new StartFrame().setVisible(true);
 		Injector injector = Guice.createInjector(new BoggleModule());
 		injector.getInstance(StartFrame.class).setVisible(true);
 	

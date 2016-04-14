@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import com.google.inject.Singleton;
 
+@Singleton
 public class StartPanel extends JPanel {
 
 	/**

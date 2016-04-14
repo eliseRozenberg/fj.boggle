@@ -10,7 +10,8 @@ import java.net.URL;
 
 import com.google.gson.Gson;
 import com.google.inject.Inject;
-
+import com.google.inject.Singleton;
+@Singleton
 public class BoggleThread extends Thread {
 
 	private final String word;
