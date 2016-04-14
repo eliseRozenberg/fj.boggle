@@ -69,6 +69,7 @@ public class Logic {
 			for (int y = 0; y < board[x].length; y++) {
 
 				found = checkAround(x, y, word, wordIndex);
+				resetVisited();
 				if (found) {
 					return true;
 				}
@@ -78,6 +79,7 @@ public class Logic {
 	}
 
 	public boolean checkAround(int x, int y, String word, int index) {
+
 		boolean isQ = false;
 		boolean found = false;
 		if (inBounds(x, y)) {
@@ -95,7 +97,10 @@ public class Logic {
 			if (!String.valueOf(word.charAt(index)).equalsIgnoreCase(board[x][y].getValue()) && !isQ) {
 				return false;
 			}
-
+			if (board[x][y].isVisited()) {
+				return false;
+			}
+			board[x][y].setIsVisited(true);
 			found = checkAround(x + 1, y, word, index + 1) || checkAround(x, y + 1, word, index + 1)
 					|| checkAround(x - 1, y, word, index + 1) || checkAround(x, y - 1, word, index + 1)
 					|| checkAround(x + 1, y + 1, word, index + 1) || checkAround(x - 1, y - 1, word, index + 1)
@@ -112,6 +117,16 @@ public class Logic {
 			}
 		}
 		return false;
+	}
+
+	private void resetVisited() {
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				if (board[i][j].isVisited()) {
+					board[i][j].setIsVisited(false);
+				}
+			}
+		}
 	}
 
 	public String getValueOfCell(int row, int column) {

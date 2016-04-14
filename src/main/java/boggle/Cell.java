@@ -26,11 +26,7 @@ public class Cell {
 		return isClicked;
 	}
 
-	public void setInWord(boolean inWord) {
-		this.inWord = inWord;
-	}
-
-	public void setVisited(boolean isVisited) {
+	public void setIsVisited(boolean isVisited) {
 		this.isVisited = isVisited;
 	}
 
@@ -44,10 +40,6 @@ public class Cell {
 
 	public int getCol() {
 		return col;
-	}
-
-	public boolean isInWord() {
-		return inWord;
 	}
 
 	public boolean isVisited() {
