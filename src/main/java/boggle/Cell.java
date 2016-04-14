@@ -27,6 +27,10 @@ public class Cell {
 	public void setIsVisited(boolean isVisited) {
 		this.isVisited = isVisited;
 	}
+	
+	public boolean getIsVisited() {
+		return isVisited;
+	}
 
 	public void setValue(String value) {
 		this.value = value;
@@ -38,10 +42,6 @@ public class Cell {
 
 	public int getCol() {
 		return col;
-	}
-
-	public boolean isVisited() {
-		return isVisited;
 	}
 
 	public String getValue() {

@@ -8,9 +8,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
 import java.net.URL;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -30,28 +28,19 @@ public class RulesFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static void main(String[] args) {
-		RulesFrame frame;
-		try {
-			frame = new RulesFrame(new StartFrame());
-			frame.setVisible(true);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+	private StartFrame startFrame;
 
-	private Border borderMenu, borderRight, borderExited;
 	private JPanel buttonPanel;
-	private int color;
-	private Font font1, font2;
-	private ImageIcon menu1, menu2;
-	private JLabel menuButton, leftButton, rightButton, circleLabel, pix,
-			heading1;
+	private JLabel menuButton, leftButton, rightButton, circleLabel, pix, heading1;
 
 	private ImageIcon[] pictures;
-	private int position;
+	private ImageIcon menu1, menu2;
 
-	private StartFrame startFrame;
+	private Font font1, font2;
+	private Border borderMenu, borderRight, borderExited;
+
+	private int color;
+	private int position;
 
 	@Inject
 	public RulesFrame(StartFrame frame) {
@@ -60,8 +49,7 @@ public class RulesFrame extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
-		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg"))
-				.getImage());
+		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg")).getImage());
 		setBackground(Color.white);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -69,6 +57,7 @@ public class RulesFrame extends JFrame {
 
 		position = 0;
 		color = 1;
+
 		pictures = new ImageIcon[10];
 		createImages();
 
@@ -94,28 +83,23 @@ public class RulesFrame extends JFrame {
 		pix.setBackground(Color.white);
 
 		leftButton = new JLabel();
-		leftButton.setIcon(new ImageIcon(formatIcon(100, 100, getClass()
-				.getResource("/left.png"))));
+		leftButton.setIcon(new ImageIcon(formatIcon(100, 100, getClass().getResource("/left.png"))));
 		leftButton.setPreferredSize(new Dimension(100, 100));
 		leftButton.setBackground(Color.white);
 		leftButton.setBorder(borderRight);
 
 		rightButton = new JLabel();
 		rightButton.setPreferredSize(new Dimension(100, 100));
-		rightButton.setIcon(new ImageIcon(formatIcon(100, 100, getClass()
-				.getResource("/right.png"))));
+		rightButton.setIcon(new ImageIcon(formatIcon(100, 100, getClass().getResource("/right.png"))));
 		rightButton.setBackground(Color.white);
 
 		circleLabel = new JLabel();
-		circleLabel.setIcon(new ImageIcon(formatIcon(65, 65, getClass()
-				.getResource("/circle2.jpg"))));
+		circleLabel.setIcon(new ImageIcon(formatIcon(65, 65, getClass().getResource("/circle2.jpg"))));
 		circleLabel.setPreferredSize(new Dimension(100, 100));
 		circleLabel.setBackground(Color.white);
 
-		menu1 = new ImageIcon(formatIcon(180, 140,
-				getClass().getResource("/menu.png")));
-		menu2 = new ImageIcon(formatIcon(180, 140,
-				getClass().getResource("/menu2.JPG")));
+		menu1 = new ImageIcon(formatIcon(180, 140, getClass().getResource("/menu.png")));
+		menu2 = new ImageIcon(formatIcon(180, 140, getClass().getResource("/menu2.JPG")));
 
 		menuButton = new JLabel();
 		menuButton.setPreferredSize(new Dimension(180, 150));
@@ -134,8 +118,8 @@ public class RulesFrame extends JFrame {
 		buttonPanel.add(rightButton);
 		buttonPanel.add(Box.createRigidArea(new Dimension(280, 0)));
 		pix.add(heading1, BorderLayout.PAGE_START);
-		add(buttonPanel, BorderLayout.SOUTH);
 		add(pix, BorderLayout.NORTH);
+		add(buttonPanel, BorderLayout.SOUTH);
 
 	}
 
@@ -269,16 +253,14 @@ public class RulesFrame extends JFrame {
 
 	public void createImages() {
 		for (int i = 0; i < pictures.length; i++) {
-			pictures[i] = new ImageIcon(formatIcon(getWidth(),
-					getHeight() - 190,
-					getClass().getResource("/pix" + (i + 1) + ".JPG")));
+			pictures[i] = new ImageIcon(
+					formatIcon(getWidth(), getHeight() - 190, getClass().getResource("/pix" + (i + 1) + ".JPG")));
 		}
 	}
 
 	public Image formatIcon(int width, Integer height, URL image) {
 		ImageIcon icon = new ImageIcon(image);
-		Image img = icon.getImage().getScaledInstance(width, height,
-				java.awt.Image.SCALE_SMOOTH);
+		Image img = icon.getImage().getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
 		return img;
 	}
 }

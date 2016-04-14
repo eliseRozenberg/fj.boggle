@@ -8,39 +8,33 @@ public class Logic {
 	private String letter;
 	private int num;
 
-	public boolean checkAround(int x, int y, String word, int index) {
+	public boolean checkAround(int row, int col, String word, int index) {
 
 		boolean isQ = false;
 		boolean found = false;
-		if (inBounds(x, y)) {
+		if (inBounds(row, col)) {
 
 			if (index >= word.length()) {
 				return true; // we came to the end of the word
 			}
 
-			if (board[x][y].getValue().equalsIgnoreCase("QU")
+			if (board[row][col].getValue().equalsIgnoreCase("QU")
 					&& ((word.charAt(index) == 'q') || (word.charAt(index) == 'Q'))) {
 				index++;
 				isQ = true;
 			}
 
-			if (!String.valueOf(word.charAt(index)).equalsIgnoreCase(
-					board[x][y].getValue())
-					&& !isQ) {
+			if (!String.valueOf(word.charAt(index)).equalsIgnoreCase(board[row][col].getValue()) && !isQ) {
 				return false;
 			}
-			if (board[x][y].isVisited()) {
+			if (board[row][col].getIsVisited()) {
 				return false;
 			}
-			board[x][y].setIsVisited(true);
-			found = checkAround(x + 1, y, word, index + 1)
-					|| checkAround(x, y + 1, word, index + 1)
-					|| checkAround(x - 1, y, word, index + 1)
-					|| checkAround(x, y - 1, word, index + 1)
-					|| checkAround(x + 1, y + 1, word, index + 1)
-					|| checkAround(x - 1, y - 1, word, index + 1)
-					|| checkAround(x - 1, y + 1, word, index + 1)
-					|| checkAround(x + 1, y - 1, word, index + 1);
+			board[row][col].setIsVisited(true);
+			found = checkAround(row + 1, col, word, index + 1) || checkAround(row, col + 1, word, index + 1)
+					|| checkAround(row - 1, col, word, index + 1) || checkAround(row, col - 1, word, index + 1)
+					|| checkAround(row + 1, col + 1, word, index + 1) || checkAround(row - 1, col - 1, word, index + 1)
+					|| checkAround(row - 1, col + 1, word, index + 1) || checkAround(row + 1, col - 1, word, index + 1);
 		}
 		return found;
 
@@ -51,10 +45,10 @@ public class Logic {
 		int wordIndex = 0;
 		boolean found = false;
 
-		for (int x = 0; x < board.length; x++) {
-			for (int y = 0; y < board[x].length; y++) {
+		for (int row = 0; row < board.length; row++) {
+			for (int col = 0; col < board[row].length; col++) {
 
-				found = checkAround(x, y, word, wordIndex);
+				found = checkAround(row, col, word, wordIndex);
 				resetVisited();
 				if (found) {
 					return true;
@@ -100,37 +94,25 @@ public class Logic {
 			board[randRow][randCol] = new Cell(randRow, randCol, vowel);
 		}
 
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board[i].length; j++) {
-				if (board[i][j] == null) {
+		for (int row = 0; row < board.length; row++) {
+			for (int col = 0; col < board[row].length; col++) {
+				if (board[row][col] == null) {
 					num = rand.nextInt(91 - 65) + 65;
 					if (num == 81) {
 						letter = "QU";
 					} else {
 						letter = String.valueOf((char) num);
 					}
-					board[i][j] = new Cell(i, j, letter);
+					board[row][col] = new Cell(row, col, letter);
 				}
 			}
 		}
 		return board;
 	}
 
-	public Cell getCell(int row, int column) {
-		return board[row][column];
-	}
-
-	public boolean getIsClicked(int row, int column) {
-		return board[row][column].getIsClicked();
-	}
-
-	public String getValueOfCell(int row, int column) {
-		return board[row][column].getValue();
-	}
-
-	public boolean inBounds(int i, int j) {
-		if ((i >= 0) && (i < 4)) {
-			if ((j >= 0) && (j < 4)) {
+	public boolean inBounds(int row, int col) {
+		if ((row >= 0) && (row < 4)) {
+			if ((col >= 0) && (col < 4)) {
 				return true;
 			}
 		}
@@ -139,19 +121,32 @@ public class Logic {
 
 	private void resetVisited() {
 		for (Cell[] element : board) {
-			for (int j = 0; j < element.length; j++) {
-				if (element[j].isVisited()) {
-					element[j].setIsVisited(false);
+			for (int col = 0; col < element.length; col++) {
+				if (element[col].getIsVisited()) {
+					element[col].setIsVisited(false);
 				}
 			}
 		}
 	}
 
-	public void setCell(int row, int column, Cell cell) {
-		board[row][column] = cell;
+	public void setCell(int row, int col, Cell cell) {
+		board[row][col] = cell;
 	}
 
-	public void setIsClicked(int row, int column, boolean clicked) {
-		board[row][column].setIsClicked(clicked);
+	public Cell getCell(int row, int col) {
+		return board[row][col];
 	}
+
+	public String getValueOfCell(int row, int col) {
+		return board[row][col].getValue();
+	}
+
+	public void setIsClicked(int row, int col, boolean clicked) {
+		board[row][col].setIsClicked(clicked);
+	}
+
+	public boolean getIsClicked(int row, int col) {
+		return board[row][col].getIsClicked();
+	}
+
 }

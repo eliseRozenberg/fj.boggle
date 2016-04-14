@@ -40,7 +40,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.Border;
@@ -78,7 +77,7 @@ public class BoggleFrame extends JFrame {
 	private Font letterFont, font1, font2;
 
 	private Stack<Cell> cellsStack;
-	private ArrayList<String> words, words2;
+	private ArrayList<String> words, words1;
 	private String[][] copy;
 	private boolean paused, roundOver;
 	private int interval, turn, playersCount, total1, total2, total;
@@ -401,7 +400,7 @@ public class BoggleFrame extends JFrame {
 				total = 0;
 				score1.setText("Score 1: ???");
 				wordListArea.setText("");
-				words2 = words;
+				words1 = words;
 				words = new ArrayList<String>();
 
 				JOptionPane.showMessageDialog(null, "Press enter to begin", "Player 2", JOptionPane.PLAIN_MESSAGE,
@@ -412,6 +411,15 @@ public class BoggleFrame extends JFrame {
 				return;
 			} else {
 				total2 = total;
+
+				gameSummaryFrame.updateLists(words1, words);
+				total1 = gameSummaryFrame.getScore1();
+				total2 = gameSummaryFrame.getScore2();
+				gameSummaryFrame.setVisible(true);
+
+				score1.setText("Score 1: " + total1);
+				score2.setText("Score 2: " + total2);
+
 				if (total1 > total2) {
 					setStatus(3);
 
@@ -421,11 +429,6 @@ public class BoggleFrame extends JFrame {
 					setStatus(5);
 				}
 				wordListArea.setText("");
-
-				gameSummaryFrame.updateLists(words, words2);
-				score1.setText("Score 1: " + gameSummaryFrame.getScore1());
-				score2.setText("Score 2: " + gameSummaryFrame.getScore2());
-				gameSummaryFrame.setVisible(true);
 
 			}
 		}

@@ -23,8 +23,9 @@ import javax.swing.JLabel;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
 
-//@Singleton
+@Singleton
 public class StartFrame extends JFrame {
 
 	/**
@@ -53,8 +54,7 @@ public class StartFrame extends JFrame {
 		setSize(600, 700);
 		setLocationRelativeTo(null);
 		setResizable(false);
-		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg"))
-				.getImage());
+		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg")).getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		addFormat();
@@ -216,8 +216,7 @@ public class StartFrame extends JFrame {
 		try {
 
 			AudioInputStream audioInputStream = AudioSystem
-					.getAudioInputStream(new File(getClass().getResource(
-							"/click.wav").getFile()));
+					.getAudioInputStream(new File(getClass().getResource("/click.wav").getFile()));
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();

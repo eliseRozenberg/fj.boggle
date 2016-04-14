@@ -99,9 +99,10 @@ public class DoublePlayerGameSummaryFrame extends JFrame {
 
 		leftPanel.setBackground(Color.BLUE);
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+		
 		rightPanel.setBackground(Color.BLUE);
-
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+		
 		middlePanel.setBackground(Color.WHITE);
 		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
 
@@ -167,7 +168,7 @@ public class DoublePlayerGameSummaryFrame extends JFrame {
 	}
 
 	public void updateLists(List<String> playerOneWords, List<String> playerTwoWords) {
-
+		sameWords.clear();
 		playerOneScore = 0;
 		playerTwoScore = 0;
 		Iterator<String> iterator = playerOneWords.iterator();
