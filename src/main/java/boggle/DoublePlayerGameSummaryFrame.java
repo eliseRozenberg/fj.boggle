@@ -14,79 +14,109 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 import com.google.inject.Singleton;
 
 @Singleton
 public class DoublePlayerGameSummaryFrame extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private BoggleFrame boggleFrame;
-	private JList<String> firstList;
-	private JPanel leftPanel;
-	private JPanel middlePanel;
-	private JLabel playerOneLabel;
-	private JLabel playerOneScoreLabel;
-	private JLabel playerTwoLabel;
-	private JLabel playerTwoScoreLabel;
-	private JPanel rightPanel;
 	private List<String> sameWords;
-	private JLabel sameWordsLabel;
-	private JList<String> sameWordsList;
-	private JList<String> secondList;
-	private JLabel winnerLabel;
+	private Container container;
+
+	private JPanel leftPanel, middlePanel, bottomPanel, rightPanel;
+	private JList<String> firstList, sameWordsList, secondList;
+	private JLabel playerOneLabel, playerOneScoreLabel, playerTwoLabel, playerTwoScoreLabel, sameWordsLabel,
+			winnerLabel;
+	private JScrollPane listOnePane, listTwoPane, sameWordsPane;
+
+	private int playerOneScore, playerTwoScore;
 
 	public DoublePlayerGameSummaryFrame(BoggleFrame boggleFrame) {
 
 		setSize(800, 600);
 		setLayout(new BorderLayout());
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
+		setTitle("Game Summary");
 
 		this.boggleFrame = boggleFrame;
-		sameWords = new ArrayList<String>();
-		setTitle("Game Summary");
+		container = new Container();
 
 		firstList = new JList<String>();
 		secondList = new JList<String>();
 		sameWordsList = new JList<String>();
+
+		listOnePane = new JScrollPane(firstList);
+		listTwoPane = new JScrollPane(secondList);
+		sameWordsPane = new JScrollPane(sameWordsList);
+
+		sameWords = new ArrayList<String>();
+
+		leftPanel = new JPanel();
+		rightPanel = new JPanel();
+		middlePanel = new JPanel();
+		bottomPanel = new JPanel();
+
+		playerOneLabel = new JLabel("PLAYER ONE");
+		playerTwoLabel = new JLabel("PLAYER TWO");
+		sameWordsLabel = new JLabel("SAME WORDS");
+		playerOneScoreLabel = new JLabel();
+		winnerLabel = new JLabel();
+
+		format();
+		add();
+	}
+
+	public void format() {
+		container.setLayout(new GridLayout(1, 3));
+
 		firstList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		firstList.setVisibleRowCount(-1);
 		firstList.setFont(new Font("Calibri", Font.PLAIN, 20));
 		firstList.setBackground(Color.BLUE);
 		firstList.setForeground(Color.WHITE);
+		firstList.setLayoutOrientation(JList.VERTICAL_WRAP);
+
 		secondList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		secondList.setVisibleRowCount(-1);
 		secondList.setBackground(Color.BLUE);
 		secondList.setForeground(Color.WHITE);
 		secondList.setFont(new Font("Calibri", Font.PLAIN, 20));
-		sameWordsList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		secondList.setLayoutOrientation(JList.VERTICAL_WRAP);
+
+		sameWordsList.setLayoutOrientation(JList.VERTICAL_WRAP);
 		sameWordsList.setVisibleRowCount(-1);
 		sameWordsList.setFont(new Font("Calibri", Font.PLAIN, 20));
 
-		leftPanel = new JPanel();
-		rightPanel = new JPanel();
-		middlePanel = new JPanel();
 		leftPanel.setBackground(Color.BLUE);
-		rightPanel.setBackground(Color.BLUE);
-		middlePanel.setBackground(Color.WHITE);
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+		rightPanel.setBackground(Color.BLUE);
+
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+		middlePanel.setBackground(Color.WHITE);
 		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
-		playerOneLabel = new JLabel("PLAYER ONE");
-		playerTwoLabel = new JLabel("PLAYER TWO");
-		sameWordsLabel = new JLabel("SAME WORDS");
+
 		playerOneLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-		playerTwoLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-		sameWordsLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		playerOneLabel.setForeground(Color.WHITE);
-		playerTwoLabel.setForeground(Color.WHITE);
-		sameWordsLabel.setForeground(Color.RED);
 		playerOneLabel.setFont(new Font("Calibri", Font.BOLD, 30));
+
+		playerTwoLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		playerTwoLabel.setForeground(Color.WHITE);
 		playerTwoLabel.setFont(new Font("Calibri", Font.BOLD, 30));
+
+		sameWordsLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		sameWordsLabel.setForeground(Color.RED);
 		sameWordsLabel.setFont(new Font("Calibri", Font.BOLD, 30));
 
-		playerOneScoreLabel = new JLabel();
 		playerOneScoreLabel.setFont(new Font("Calibri", Font.BOLD, 30));
 		playerOneScoreLabel.setBackground(Color.BLUE);
 		playerOneScoreLabel.setForeground(Color.WHITE);
@@ -98,42 +128,48 @@ public class DoublePlayerGameSummaryFrame extends JFrame {
 		playerTwoScoreLabel.setForeground(Color.WHITE);
 		playerTwoScoreLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 
-		winnerLabel = new JLabel();
 		winnerLabel.setFont(new Font("Calibri", Font.BOLD, 30));
 		winnerLabel.setBackground(Color.WHITE);
 		winnerLabel.setForeground(Color.RED);
 		winnerLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 
-		leftPanel.add(playerOneLabel);
-		leftPanel.add(firstList);
-
-		rightPanel.add(playerTwoLabel);
-		rightPanel.add(secondList);
-
-		middlePanel.add(sameWordsLabel);
-		middlePanel.add(sameWordsList);
-
-		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new GridLayout(1, 3));
 		bottomPanel.setBackground(Color.BLACK);
-		bottomPanel.add(playerOneScoreLabel);
-		bottomPanel.add(winnerLabel);
-		bottomPanel.add(playerTwoScoreLabel);
 
-		Container container = new Container();
-		container.setLayout(new GridLayout(1, 3));
+		listOnePane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		listTwoPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		sameWordsPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+	}
+
+	public void add() {
+
+		leftPanel.add(playerOneLabel);
+		leftPanel.add(listOnePane);
+
+		rightPanel.add(playerTwoLabel);
+		rightPanel.add(listTwoPane);
+
+		middlePanel.add(sameWordsLabel);
+		middlePanel.add(sameWordsPane);
+
 		container.add(leftPanel);
 		container.add(middlePanel);
 		container.add(rightPanel);
 
+		bottomPanel.add(playerOneScoreLabel);
+		bottomPanel.add(winnerLabel);
+		bottomPanel.add(playerTwoScoreLabel);
+
 		add(container, BorderLayout.CENTER);
 		add(bottomPanel, BorderLayout.SOUTH);
+
 	}
 
-	public void updateLists(List<String> playerOneWords,
-			List<String> playerTwoWords) {
-		int playerOneScore = 0;
-		int playerTwoScore = 0;
+	public void updateLists(List<String> playerOneWords, List<String> playerTwoWords) {
+
+		playerOneScore = 0;
+		playerTwoScore = 0;
 		Iterator<String> iterator = playerOneWords.iterator();
 		while (iterator.hasNext()) {
 			String word = iterator.next();
@@ -163,6 +199,7 @@ public class DoublePlayerGameSummaryFrame extends JFrame {
 
 		firstList.setListData(playerOneWords.toArray(new String[0]));
 		secondList.setListData(playerTwoWords.toArray(new String[0]));
+
 		sameWordsList.setListData(sameWords.toArray(new String[0]));
 		playerOneScoreLabel.setText("SCORE: " + playerOneScore);
 		playerTwoScoreLabel.setText("SCORE: " + playerTwoScore);
@@ -173,5 +210,14 @@ public class DoublePlayerGameSummaryFrame extends JFrame {
 		} else {
 			winnerLabel.setText("GAME IS TIED");
 		}
+	}
+
+	public int getScore1() {
+		return playerOneScore;
+	}
+
+	public int getScore2() {
+		return playerTwoScore;
+
 	}
 }
