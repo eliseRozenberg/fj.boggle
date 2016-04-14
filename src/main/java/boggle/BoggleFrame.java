@@ -697,9 +697,25 @@ public class BoggleFrame extends JFrame {
 	}
 
 	public void setWordInvalid() {
+		try {
+			AudioInputStream audioInputStream = AudioSystem
+					.getAudioInputStream(new File(getClass().getResource(
+							"/wrongAnswerSound.wav").getFile()));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
 		Thread thread = new Thread() {
 			@Override
 			public void run() {
+
 				correctLabel.setIcon(xImage);
 				try {
 					Thread.sleep(1000);
@@ -713,6 +729,21 @@ public class BoggleFrame extends JFrame {
 	}
 
 	public void setWordValid() {
+		try {
+			AudioInputStream audioInputStream = AudioSystem
+					.getAudioInputStream(new File(getClass().getResource(
+							"/rightAnswerSound.wav").getFile()));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
 		Thread thread = new Thread() {
 			@Override
 			public void run() {
