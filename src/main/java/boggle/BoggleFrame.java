@@ -52,15 +52,11 @@ import com.google.inject.Inject;
 
 public class BoggleFrame extends JFrame {
 
-	public static void main(String[] args) {
-		new BoggleFrame(1).setVisible(true);
-	}
-
 	private static final long serialVersionUID = 1L;
 	private BoggleThread thread;
 	private final Logic logic;
 	private Timer timer;
-
+	private final StartFrame startFrame;
 	private final Font letterFont;
 
 	private final Container container;
@@ -101,7 +97,7 @@ public class BoggleFrame extends JFrame {
 	private final DocumentFilter filter;
 
 	@Inject
-	public BoggleFrame(int players) {
+	public BoggleFrame(StartFrame frame, int players) {
 		setTitle("BOGGLE");
 		setSize(600, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -110,6 +106,7 @@ public class BoggleFrame extends JFrame {
 		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg"))
 				.getImage());
 
+		startFrame = frame;
 		container = getContentPane();
 		boardPanel = new JPanel();
 		topPanel = new JPanel();
@@ -178,7 +175,7 @@ public class BoggleFrame extends JFrame {
 		addToPanels();
 		addActionListeners();
 		addTimer();
-		resetBoard();
+		// resetBoard();
 	}
 
 	private void setWindowListener() {
@@ -275,6 +272,9 @@ public class BoggleFrame extends JFrame {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
+				setVisible(false);
+				startFrame.setVisible(true);
+				timer.stop();
 			}
 		});
 
@@ -689,11 +689,12 @@ public class BoggleFrame extends JFrame {
 			score2.setVisible(false);
 		} else {
 			score2.setText("Score 2: 0");
+			score2.setVisible(true);
 			setStatus(7);
 		}
 		total = 0;
 		turn = 1;
-		interval = 181;
+		interval = 10;
 		fillBoard();
 		wordTextField.setEnabled(true);
 		rotateBoard.setEnabled(true);

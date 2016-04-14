@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-public class PlayGamePanel extends JPanel {
+public class StartPanel extends JPanel {
 
 	/**
 	 * 
@@ -15,7 +15,7 @@ public class PlayGamePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
 
-	public PlayGamePanel() {
+	public StartPanel() {
 
 		try {
 			image = ImageIO.read(getClass().getResourceAsStream("/startBackground.jpg"));

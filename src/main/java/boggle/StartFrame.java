@@ -27,7 +27,8 @@ public class StartFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private PlayGamePanel playGamePanel;
+	private StartPanel startPanel;
+	private HighScoreFrame highScoreFrame;
 	private BoggleFrame boggleFrame;
 	private RulesFrame rulesFrame;
 	private Container container;
@@ -53,7 +54,9 @@ public class StartFrame extends JFrame {
 		container.setLayout(new BorderLayout());
 
 		rulesFrame = new RulesFrame(this);
-		playGamePanel = new PlayGamePanel();
+		startPanel = new StartPanel();
+		boggleFrame = new BoggleFrame(this, 1);
+		highScoreFrame = new HighScoreFrame(this);
 
 		colorExited = new Color(255, 255, 255);
 		colorEntered = new Color(255, 255, 0);
@@ -80,12 +83,12 @@ public class StartFrame extends JFrame {
 		highScoreButton.setForeground(colorExited);
 		highScoreButton.setFont(font1);
 
-		playGamePanel.add(Box.createRigidArea(new Dimension(00, 370)));
-		playGamePanel.add(singleButton);
-		playGamePanel.add(doubleButton);
-		playGamePanel.add(rulesButton);
-		playGamePanel.add(highScoreButton);
-		container.add(playGamePanel, BorderLayout.CENTER);
+		startPanel.add(Box.createRigidArea(new Dimension(00, 370)));
+		startPanel.add(singleButton);
+		startPanel.add(doubleButton);
+		startPanel.add(rulesButton);
+		startPanel.add(highScoreButton);
+		container.add(startPanel, BorderLayout.CENTER);
 
 	}
 
@@ -112,7 +115,8 @@ public class StartFrame extends JFrame {
 
 			public void mouseReleased(MouseEvent e) {
 				setVisible(false);
-				boggleFrame = new BoggleFrame(1);
+				boggleFrame.setPlayer(1);
+				boggleFrame.resetBoard();
 				boggleFrame.setVisible(true);
 
 			}
@@ -143,9 +147,9 @@ public class StartFrame extends JFrame {
 
 			public void mouseReleased(MouseEvent e) {
 				setVisible(false);
-				boggleFrame = new BoggleFrame(2);
-				// boggle.setPlayer(2);
-				boggleFrame.setVisible(true);
+				boggleFrame.setPlayer(2);
+				boggleFrame.resetBoard();
+				boggleFrame.setVisible(true);	
 			}
 
 			public void mousePressed(MouseEvent e) {
@@ -200,8 +204,8 @@ public class StartFrame extends JFrame {
 		highScoreButton.addMouseListener(new MouseListener() {
 
 			public void mouseReleased(MouseEvent e) {
-				// setVisible(false);
-				// highScoreFrame.setVisible(true);
+				setVisible(false);
+				highScoreFrame.setVisible(true);
 			}
 
 			public void mousePressed(MouseEvent e) {
