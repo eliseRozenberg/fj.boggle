@@ -36,6 +36,7 @@ public class StartFrame extends JFrame {
 	private Color colorExited, colorEntered;
 	private Font font1, font2;
 
+	// @Inject
 	public StartFrame() throws IOException {
 
 		setTitle("BOGGLE");
@@ -111,8 +112,9 @@ public class StartFrame extends JFrame {
 			e.printStackTrace();
 		}
 	}
-	public void adddLis(String name){
-		
+
+	public void adddLis(String name) {
+
 	}
 
 	public void addListeners() {
@@ -235,5 +237,8 @@ public class StartFrame extends JFrame {
 
 	public static void main(String[] args) throws IOException {
 		new StartFrame().setVisible(true);
+		// Injector injector = Guice.createInjector(new StartFrame()
+		// .setVisible(true));
+		// injector.getInstance(StartFrame.class);
 	}
 }

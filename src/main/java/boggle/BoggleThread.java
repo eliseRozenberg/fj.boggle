@@ -9,10 +9,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import com.google.gson.Gson;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 
 public class BoggleThread extends Thread {
 
@@ -29,27 +25,31 @@ public class BoggleThread extends Thread {
 
 	@Override
 	public void run() {
-		
-
-		StringBuilder builder = new StringBuilder();
-		builder.append("https://wordsapiv1.p.mashape.com/words/");
-		builder.append(word);
-		builder.append("/definitions");
-
-		HttpResponse<JsonNode> response = null;
 
 		try {
-			response = Unirest
-					.get(builder.toString())
-					.header("X-Mashape-Key",
-							"tUX0EvhpmFmshGEJpal40dLinQHip1nvCqWjsnERTWgoGmbBcK")
-					.header("Accept", "application/json").asJson();
-		} catch (UnirestException e) {
-			frame.setWordInvalid();
-			caught = true;
+			URL dictionaryURL = new URL(
+					"https://en.wiktionary.org/w/api.php?action=query&format=json&titles="
+							+ word);
 
+			HttpURLConnection connection = (HttpURLConnection) dictionaryURL
+					.openConnection();
+			InputStream input = connection.getInputStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					input));
+			Gson gson = new Gson();
+			WordExistsJson wordExists = gson.fromJson(reader,
+					WordExistsJson.class);
+
+			if (wordExists.getQuery().getPages().containsKey(-1)) {
+				frame.setWordInvalid();
+				caught = true;
+			}
+
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
 
 		if (!caught) {
 			int size = word.length();
