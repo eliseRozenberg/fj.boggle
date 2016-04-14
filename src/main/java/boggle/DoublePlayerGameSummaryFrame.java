@@ -21,18 +21,18 @@ import com.google.inject.Singleton;
 public class DoublePlayerGameSummaryFrame extends JFrame {
 
 	private BoggleFrame boggleFrame;
-	private List<String> sameWords;
 	private JList<String> firstList;
-	private JList<String> secondList;
-	private JList<String> sameWordsList;
 	private JPanel leftPanel;
-	private JPanel rightPanel;
 	private JPanel middlePanel;
 	private JLabel playerOneLabel;
-	private JLabel playerTwoLabel;
-	private JLabel sameWordsLabel;
 	private JLabel playerOneScoreLabel;
+	private JLabel playerTwoLabel;
 	private JLabel playerTwoScoreLabel;
+	private JPanel rightPanel;
+	private List<String> sameWords;
+	private JLabel sameWordsLabel;
+	private JList<String> sameWordsList;
+	private JList<String> secondList;
 	private JLabel winnerLabel;
 
 	public DoublePlayerGameSummaryFrame(BoggleFrame boggleFrame) {

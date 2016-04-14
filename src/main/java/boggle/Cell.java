@@ -4,7 +4,6 @@ public class Cell {
 
 	private int row;
 	private int col;
-	private boolean inWord;
 	private boolean isVisited;
 	private String value;
 	private boolean isClicked;
@@ -14,7 +13,6 @@ public class Cell {
 		this.col = col;
 		this.value = value;
 		this.isVisited = false;
-		this.inWord = false;
 		this.isClicked = false;
 	}
 
@@ -49,5 +47,4 @@ public class Cell {
 	public String getValue() {
 		return value;
 	}
-
 }

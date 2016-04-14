@@ -160,7 +160,7 @@ public class BoggleFrame extends JFrame {
 		roundOver = false;
 		paused = false;
 		playersCount = 1;
-		interval = 10;
+		interval = 181;
 		total = 0;
 		turn = 1;
 
@@ -168,119 +168,6 @@ public class BoggleFrame extends JFrame {
 		addToPanels();
 		addListeners();
 		addTimer();
-		// resetBoard();
-	}
-
-	private void format() {
-		container.setLayout(new BorderLayout());
-
-		boardPanel.setLayout(new GridLayout(4, 4));
-		topPanel.setLayout(new BorderLayout());
-		topPanel.setBackground(Color.BLUE);
-		leftPanel.setLayout(new BorderLayout());
-		rightPanel.setLayout(new BorderLayout());
-		bottomPanel.setLayout(new FlowLayout());
-		scorePanel.setBackground(Color.blue);
-		scorePanel.setLayout(new BoxLayout(scorePanel, BoxLayout.Y_AXIS));
-		iconPanel.setLayout(new BoxLayout(iconPanel, BoxLayout.Y_AXIS));
-		iconPanel.setBackground(Color.WHITE);
-
-		timerLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		timerLabel.setFont(font1);
-		timerLabel.setForeground(Color.WHITE);
-
-		correctLabel.setIcon(blankImage);
-
-		wordTextField.setOpaque(true);
-		wordTextField.setBackground(new Color(204, 204, 255));
-		wordTextField.setForeground(Color.BLUE);
-		wordTextField.setHorizontalAlignment(SwingConstants.CENTER);
-		wordTextField.setPreferredSize(new Dimension(50, 40));
-		wordTextField.setFont(font1);
-		wordTextField.setFocusable(true);
-		wordTextField.setColumns(10);
-		document.setDocumentFilter(filter);
-
-		score1.setFont(font1);
-		score1.setForeground(Color.WHITE);
-		score2.setFont(font1);
-		score2.setForeground(Color.WHITE);
-
-		status.setFont(font1);
-		status.setForeground(Color.WHITE);
-		status.setText("hhhel");
-
-		scrollPane
-				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		wordListArea.setBackground(Color.WHITE);
-		wordListArea.setForeground(Color.BLACK);
-		wordListArea.setFont(font2);
-		wordListArea.setEditable(false);
-
-		resetBoard.setBackground(new Color(204, 204, 255));
-		resetBoard.setForeground(Color.BLUE);
-		resetBoard.setFont(font1);
-		resetBoard.setBorder(null);
-		resetBoard.setBorderPainted(false);
-		resetBoard.setFocusPainted(false);
-		resetBoard.setRolloverEnabled(false);
-
-		rotateBoard.setBackground(new Color(204, 204, 255));
-		rotateBoard.setForeground(Color.BLUE);
-		rotateBoard.setFont(font1);
-		rotateBoard.setBorder(null);
-		rotateBoard.setBorderPainted(false);
-		rotateBoard.setFocusPainted(false);
-		rotateBoard.setRolloverEnabled(false);
-
-		menuButton.setBackground(new Color(204, 204, 255));
-		menuButton.setForeground(Color.BLUE);
-		menuButton.setFont(font1);
-		menuButton.setBorder(null);
-		menuButton.setBorderPainted(false);
-		menuButton.setFocusPainted(false);
-		menuButton.setRolloverEnabled(false);
-
-		pauseButton.setBackground(new Color(204, 204, 255));
-		pauseButton.setForeground(Color.BLUE);
-		pauseButton.setFont(font2);
-		pauseButton.setBorder(null);
-		pauseButton.setBorderPainted(false);
-		pauseButton.setFocusPainted(false);
-		pauseButton.setRolloverEnabled(false);
-
-		pauseLabel.setBackground(Color.BLACK);
-		pauseLabel.setOpaque(true);
-		pauseLabel.setForeground(Color.WHITE);
-		pauseLabel.setFont(new Font("Calibri", Font.BOLD, 60));
-	}
-
-	private void addToPanels() {
-		scorePanel.add(score1);
-		scorePanel.add(score2);
-
-		topPanel.add(imageLabel, BorderLayout.CENTER);
-		topPanel.add(timerLabel, BorderLayout.SOUTH);
-		topPanel.add(scorePanel, BorderLayout.WEST);
-		topPanel.add(status, BorderLayout.EAST);
-		topPanel.add(menuButton, BorderLayout.NORTH);
-
-		rightPanel.add(pauseButton, BorderLayout.NORTH);
-		rightPanel.add(boardPanel, BorderLayout.CENTER);
-
-		iconPanel.add(correctLabel);
-		leftPanel.add(iconPanel, BorderLayout.SOUTH);
-		leftPanel.add(scrollPane, BorderLayout.CENTER);
-		leftPanel.add(resetBoard, BorderLayout.NORTH);
-
-		bottomPanel.add(wordTextField);
-		bottomPanel.add(Box.createRigidArea(new Dimension(100, 0)));
-		bottomPanel.add(rotateBoard);
-
-		container.add(rightPanel, BorderLayout.CENTER);
-		container.add(topPanel, BorderLayout.NORTH);
-		container.add(leftPanel, BorderLayout.WEST);
-		container.add(bottomPanel, BorderLayout.SOUTH);
 	}
 
 	private void addListeners() {
@@ -394,6 +281,43 @@ public class BoggleFrame extends JFrame {
 		}
 	}
 
+	public int addScore(int amt) {
+		int points = 0;
+		// it is only likely that the word will be from 3-8
+		switch (amt) {
+		case 3:
+			points = 1;
+			total += 1;
+			break;
+		case 4:
+			points = 2;
+			total += 2;
+			break;
+		case 5:
+			points = 3;
+			total += 3;
+			break;
+		case 6:
+			points = 4;
+			total += 4;
+			break;
+		case 7:
+			points = 5;
+			total += 5;
+			break;
+		case 8:
+			points = 6;
+			total += 6;
+			break;
+		}
+		if (turn == 1) {
+			score1.setText("Score 1: " + total);
+		} else {
+			score2.setText("Score 2: " + total);
+		}
+		return points;
+	}
+
 	private void addTimer() {
 		timer = new Timer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -402,6 +326,48 @@ public class BoggleFrame extends JFrame {
 				}
 			}
 		});
+	}
+
+	private void addToPanels() {
+		scorePanel.add(score1);
+		scorePanel.add(score2);
+
+		topPanel.add(imageLabel, BorderLayout.CENTER);
+		topPanel.add(timerLabel, BorderLayout.SOUTH);
+		topPanel.add(scorePanel, BorderLayout.WEST);
+		topPanel.add(status, BorderLayout.EAST);
+		topPanel.add(menuButton, BorderLayout.NORTH);
+
+		rightPanel.add(pauseButton, BorderLayout.NORTH);
+		rightPanel.add(boardPanel, BorderLayout.CENTER);
+
+		iconPanel.add(correctLabel);
+		leftPanel.add(iconPanel, BorderLayout.SOUTH);
+		leftPanel.add(scrollPane, BorderLayout.CENTER);
+		leftPanel.add(resetBoard, BorderLayout.NORTH);
+
+		bottomPanel.add(wordTextField);
+		bottomPanel.add(Box.createRigidArea(new Dimension(100, 0)));
+		bottomPanel.add(rotateBoard);
+
+		container.add(rightPanel, BorderLayout.CENTER);
+		container.add(topPanel, BorderLayout.NORTH);
+		container.add(leftPanel, BorderLayout.WEST);
+		container.add(bottomPanel, BorderLayout.SOUTH);
+	}
+
+	public void appendWord(String word, int points) {
+		words.add(word);
+		if (points == 1) {
+			wordListArea.append(" " + points + "    " + word.toUpperCase()
+					+ "\n");
+
+		} else {
+			wordListArea.append(" " + points + "   " + word.toUpperCase()
+					+ "\n");
+
+		}
+		wordTextField.setText("");
 	}
 
 	private int checkTimer() {
@@ -455,7 +421,7 @@ public class BoggleFrame extends JFrame {
 
 				JOptionPane.showMessageDialog(null, "Press enter to begin",
 						"Player 2", JOptionPane.PLAIN_MESSAGE, boggleIcon);
-				interval = 10;
+				interval = 181;
 				timer.start();
 
 				return;
@@ -479,41 +445,11 @@ public class BoggleFrame extends JFrame {
 		rotateBoard.setEnabled(false);
 		pauseButton.setEnabled(false);
 
-		// disable the letters
 		for (JLabel[] element : boggleBoard) {
 			for (JLabel element2 : element) {
 				element2.setEnabled(false);
 			}
 		}
-	}
-
-	public void resetBoard() {
-		roundOver = false;
-		wordTextField.setText("");
-		wordListArea.setText("");
-		words.clear();
-		score1.setText("Score 1: 0");
-		if (playersCount == 1) {
-			setStatus(1);
-			score2.setVisible(false);
-		} else {
-			score2.setText("Score 2: 0");
-			score2.setVisible(true);
-			setStatus(7);
-		}
-		total = 0;
-		turn = 1;
-		interval = 10;
-		fillBoard();
-		wordTextField.setEnabled(true);
-		rotateBoard.setEnabled(true);
-		pauseButton.setEnabled(true);
-		for (JLabel[] element : boggleBoard) {
-			for (JLabel element2 : element) {
-				element2.setEnabled(true);
-			}
-		}
-		timer.start();
 	}
 
 	public void fillBoard() {
@@ -533,6 +469,162 @@ public class BoggleFrame extends JFrame {
 		}
 	}
 
+	private void format() {
+		container.setLayout(new BorderLayout());
+
+		boardPanel.setLayout(new GridLayout(4, 4));
+		topPanel.setLayout(new BorderLayout());
+		topPanel.setBackground(Color.BLUE);
+		leftPanel.setLayout(new BorderLayout());
+		rightPanel.setLayout(new BorderLayout());
+		bottomPanel.setLayout(new FlowLayout());
+		scorePanel.setBackground(Color.blue);
+		scorePanel.setLayout(new BoxLayout(scorePanel, BoxLayout.Y_AXIS));
+		iconPanel.setLayout(new BoxLayout(iconPanel, BoxLayout.Y_AXIS));
+		iconPanel.setBackground(Color.WHITE);
+
+		timerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		timerLabel.setFont(font1);
+		timerLabel.setForeground(Color.WHITE);
+
+		correctLabel.setIcon(blankImage);
+
+		wordTextField.setOpaque(true);
+		wordTextField.setBackground(new Color(204, 204, 255));
+		wordTextField.setForeground(Color.BLUE);
+		wordTextField.setHorizontalAlignment(SwingConstants.CENTER);
+		wordTextField.setPreferredSize(new Dimension(50, 40));
+		wordTextField.setFont(font1);
+		wordTextField.setFocusable(true);
+		wordTextField.setColumns(10);
+		document.setDocumentFilter(filter);
+
+		score1.setFont(font1);
+		score1.setForeground(Color.WHITE);
+		score2.setFont(font1);
+		score2.setForeground(Color.WHITE);
+
+		status.setFont(font1);
+		status.setForeground(Color.WHITE);
+		status.setText("hhhel");
+
+		scrollPane
+				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		wordListArea.setBackground(Color.WHITE);
+		wordListArea.setForeground(Color.BLACK);
+		wordListArea.setFont(font2);
+		wordListArea.setEditable(false);
+
+		resetBoard.setBackground(new Color(204, 204, 255));
+		resetBoard.setForeground(Color.BLUE);
+		resetBoard.setFont(font1);
+		resetBoard.setBorder(null);
+		resetBoard.setBorderPainted(false);
+		resetBoard.setFocusPainted(false);
+		resetBoard.setRolloverEnabled(false);
+
+		rotateBoard.setBackground(new Color(204, 204, 255));
+		rotateBoard.setForeground(Color.BLUE);
+		rotateBoard.setFont(font1);
+		rotateBoard.setBorder(null);
+		rotateBoard.setBorderPainted(false);
+		rotateBoard.setFocusPainted(false);
+		rotateBoard.setRolloverEnabled(false);
+
+		menuButton.setBackground(new Color(204, 204, 255));
+		menuButton.setForeground(Color.BLUE);
+		menuButton.setFont(font1);
+		menuButton.setBorder(null);
+		menuButton.setBorderPainted(false);
+		menuButton.setFocusPainted(false);
+		menuButton.setRolloverEnabled(false);
+
+		pauseButton.setBackground(new Color(204, 204, 255));
+		pauseButton.setForeground(Color.BLUE);
+		pauseButton.setFont(font2);
+		pauseButton.setBorder(null);
+		pauseButton.setBorderPainted(false);
+		pauseButton.setFocusPainted(false);
+		pauseButton.setRolloverEnabled(false);
+
+		pauseLabel.setBackground(Color.BLACK);
+		pauseLabel.setOpaque(true);
+		pauseLabel.setForeground(Color.WHITE);
+		pauseLabel.setFont(new Font("Calibri", Font.BOLD, 60));
+	}
+
+	public void getAudio(String name) {
+		try {
+			AudioInputStream audioInputStream = AudioSystem
+					.getAudioInputStream(new File(getClass().getResource(name)
+							.getFile()));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void pause() {
+		if (paused) {
+			rightPanel.remove(pauseLabel);
+			rightPanel.add(boardPanel, BorderLayout.CENTER);
+			pauseButton.setText("PAUSE");
+			paused = false;
+			resetBoard.setEnabled(true);
+			wordTextField.setEnabled(true);
+			rotateBoard.setEnabled(true);
+			repaint();
+			return;
+		}
+		if (!paused) {
+			rightPanel.remove(boardPanel);
+			rightPanel.add(pauseLabel, BorderLayout.CENTER);
+			pauseButton.setText("RESUME");
+			paused = true;
+			resetBoard.setEnabled(false);
+			wordTextField.setEnabled(false);
+			rotateBoard.setEnabled(false);
+			repaint();
+			return;
+		}
+	}
+
+	public void resetBoard() {
+		roundOver = false;
+		wordTextField.setText("");
+		wordListArea.setText("");
+		words.clear();
+		score1.setText("Score 1: 0");
+		if (playersCount == 1) {
+			setStatus(1);
+			score2.setVisible(false);
+		} else {
+			score2.setText("Score 2: 0");
+			score2.setVisible(true);
+			setStatus(7);
+		}
+		total = 0;
+		turn = 1;
+		interval = 181;
+		fillBoard();
+		wordTextField.setEnabled(true);
+		rotateBoard.setEnabled(true);
+		pauseButton.setEnabled(true);
+		for (JLabel[] element : boggleBoard) {
+			for (JLabel element2 : element) {
+				element2.setEnabled(true);
+			}
+		}
+		timer.start();
+	}
+
 	public void resetCells() {
 		cellsStack.clear();
 		for (int row = 0; row < 4; row++) {
@@ -541,6 +633,53 @@ public class BoggleFrame extends JFrame {
 						true));
 				logic.setIsClicked(row, col, false);
 			}
+		}
+	}
+
+	public void rotateMatrixRight() {
+		resetCells();
+		wordTextField.setText("");
+		for (int r = 0; r < 4; r++) {
+			for (int c = 0; c < 4; c++) {
+				copy[c][4 - 1 - r] = logic.getValueOfCell(r, c);
+			}
+		}
+		for (int i = 0; i < copy.length; i++) {
+			for (int j = 0; j < copy[i].length; j++) {
+				Cell cell = new Cell(i, j, copy[i][j]);
+				logic.setCell(i, j, cell);
+				boggleBoard[i][j].setText(copy[i][j]);
+			}
+		}
+	}
+
+	public void setPlayer(int players) {
+		this.playersCount = players;
+	}
+
+	private void setStatus(int num) {
+		switch (num) {
+		case 1:
+			status.setText("Good Luck!");
+			break;
+		case 2:
+			status.setText("Times Up!");
+			break;
+		case 3:
+			status.setText("Player 1 Wins!");
+			break;
+		case 4:
+			status.setText("Player 2 Wins!");
+			break;
+		case 5:
+			status.setText("Tie Game");
+			break;
+		case 6:
+			status.setText("Player 2's Turn");
+			break;
+		case 7:
+			status.setText("Player 1's Turn");
+			break;
 		}
 	}
 
@@ -578,146 +717,5 @@ public class BoggleFrame extends JFrame {
 			}
 		};
 		thread.start();
-	}
-
-	public int addScore(int amt) {
-		int points = 0;
-		// it is only likely that the word will be from 3-8
-		switch (amt) {
-		case 3:
-			points = 1;
-			total += 1;
-			break;
-		case 4:
-			points = 2;
-			total += 2;
-			break;
-		case 5:
-			points = 3;
-			total += 3;
-			break;
-		case 6:
-			points = 4;
-			total += 4;
-			break;
-		case 7:
-			points = 5;
-			total += 5;
-			break;
-		case 8:
-			points = 6;
-			total += 6;
-			break;
-		}
-		if (turn == 1) {
-			score1.setText("Score 1: " + total);
-		} else {
-			score2.setText("Score 2: " + total);
-		}
-		return points;
-	}
-
-	public void appendWord(String word, int points) {
-		words.add(word);
-		if (points == 1) {
-			wordListArea.append(" " + points + "    " + word.toUpperCase()
-					+ "\n");
-
-		} else {
-			wordListArea.append(" " + points + "   " + word.toUpperCase()
-					+ "\n");
-
-		}
-		wordTextField.setText("");
-	}
-
-	public void pause() {
-		if (paused) {
-			rightPanel.remove(pauseLabel);
-			rightPanel.add(boardPanel, BorderLayout.CENTER);
-			pauseButton.setText("PAUSE");
-			paused = false;
-			resetBoard.setEnabled(true);
-			wordTextField.setEnabled(true);
-			rotateBoard.setEnabled(true);
-			repaint();
-			return;
-		}
-		if (!paused) {
-			rightPanel.remove(boardPanel);
-			rightPanel.add(pauseLabel, BorderLayout.CENTER);
-			pauseButton.setText("RESUME");
-			paused = true;
-			resetBoard.setEnabled(false);
-			wordTextField.setEnabled(false);
-			rotateBoard.setEnabled(false);
-			repaint();
-			return;
-		}
-	}
-
-	public void rotateMatrixRight() {
-		resetCells();
-		wordTextField.setText("");
-		for (int r = 0; r < 4; r++) {
-			for (int c = 0; c < 4; c++) {
-				copy[c][4 - 1 - r] = logic.getValueOfCell(r, c);
-			}
-		}
-		for (int i = 0; i < copy.length; i++) {
-			for (int j = 0; j < copy[i].length; j++) {
-				Cell cell = new Cell(i, j, copy[i][j]);
-				logic.setCell(i, j, cell);
-				boggleBoard[i][j].setText(copy[i][j]);
-			}
-		}
-	}
-
-	private void setStatus(int num) {
-		switch (num) {
-		case 1:
-			status.setText("Good Luck!");
-			break;
-		case 2:
-			status.setText("Times Up!");
-			break;
-		case 3:
-			status.setText("Player 1 Wins!");
-			break;
-		case 4:
-			status.setText("Player 2 Wins!");
-			break;
-		case 5:
-			status.setText("Tie Game");
-			break;
-		case 6:
-			status.setText("Player 2's Turn");
-			break;
-		case 7:
-			status.setText("Player 1's Turn");
-			break;
-		}
-	}
-
-	public void getAudio(String name) {
-		try {
-			AudioInputStream audioInputStream = AudioSystem
-					.getAudioInputStream(new File(getClass().getResource(name)
-							.getFile()));
-			Clip clip = AudioSystem.getClip();
-			clip.open(audioInputStream);
-			clip.start();
-
-		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void setPlayer(int players) {
-		this.playersCount = players;
 	}
 }

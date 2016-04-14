@@ -32,13 +32,19 @@ public class StartFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	public static void main(String[] args) throws IOException {
+		Injector injector = Guice.createInjector(new BoggleModule());
+		injector.getInstance(StartFrame.class).setVisible(true);
+	}
+
 	private BoggleFrame boggleFrame;
-	private RulesFrame rulesFrame;
-	private StartPanel startPanel;
-	private Container container;
-	private JLabel singleButton, doubleButton, rulesButton, quitbutton;
 	private Color colorExited, colorEntered;
+	private Container container;
 	private Font font1, font2;
+	private RulesFrame rulesFrame;
+	private JLabel singleButton, doubleButton, rulesButton, quitbutton;
+
+	private StartPanel startPanel;
 
 	@Inject
 	public StartFrame() throws IOException {
@@ -47,11 +53,16 @@ public class StartFrame extends JFrame {
 		setSize(600, 700);
 		setLocationRelativeTo(null);
 		setResizable(false);
-		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg")).getImage());
+		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg"))
+				.getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		addFormat();
 		addListeners();
+	}
+
+	public void adddLis(String name) {
+
 	}
 
 	public void addFormat() {
@@ -96,37 +107,14 @@ public class StartFrame extends JFrame {
 
 	}
 
-	public void playClickSound() {
-		try {
-
-			AudioInputStream audioInputStream = AudioSystem
-					.getAudioInputStream(new File(getClass().getResource("/click.wav").getFile()));
-			Clip clip = AudioSystem.getClip();
-			clip.open(audioInputStream);
-			clip.start();
-
-		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void adddLis(String name) {
-
-	}
-
 	public void addListeners() {
 		singleButton.addMouseListener(new MouseListener() {
 
-			public void mouseReleased(MouseEvent e) {
-				startGame(1);
+			public void mouseClicked(MouseEvent e) {
 			}
 
-			public void mousePressed(MouseEvent e) {
-				playClickSound();
+			public void mouseEntered(MouseEvent e) {
+				entered(singleButton, "         Single Player");
 			}
 
 			public void mouseExited(MouseEvent e) {
@@ -134,78 +122,79 @@ public class StartFrame extends JFrame {
 
 			}
 
-			public void mouseEntered(MouseEvent e) {
-				entered(singleButton, "         Single Player");
+			public void mousePressed(MouseEvent e) {
+				playClickSound();
 			}
 
-			public void mouseClicked(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
+				startGame(1);
 			}
 		});
 
 		doubleButton.addMouseListener(new MouseListener() {
 
-			public void mouseReleased(MouseEvent e) {
-				startGame(2);
-			}
-
-			public void mousePressed(MouseEvent e) {
-				playClickSound();
-			}
-
-			public void mouseExited(MouseEvent e) {
-				exited(doubleButton, "        Double Player");
+			public void mouseClicked(MouseEvent e) {
 			}
 
 			public void mouseEntered(MouseEvent e) {
 				entered(doubleButton, "       Double Player");
 			}
 
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
-
-		rulesButton.addMouseListener(new MouseListener() {
-
-			public void mouseReleased(MouseEvent e) {
-				setVisible(false);
-				rulesFrame.setVisible(true);
+			public void mouseExited(MouseEvent e) {
+				exited(doubleButton, "        Double Player");
 			}
 
 			public void mousePressed(MouseEvent e) {
 				playClickSound();
 			}
 
-			public void mouseExited(MouseEvent e) {
-				exited(rulesButton, "                Rules");
+			public void mouseReleased(MouseEvent e) {
+				startGame(2);
+			}
+		});
+
+		rulesButton.addMouseListener(new MouseListener() {
+
+			public void mouseClicked(MouseEvent e) {
 			}
 
 			public void mouseEntered(MouseEvent e) {
 				entered(rulesButton, "               Rules");
 			}
 
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
-
-		quitbutton.addMouseListener(new MouseListener() {
-
-			public void mouseReleased(MouseEvent e) {
-				System.exit(0);
+			public void mouseExited(MouseEvent e) {
+				exited(rulesButton, "                Rules");
 			}
 
 			public void mousePressed(MouseEvent e) {
 				playClickSound();
 			}
 
-			public void mouseExited(MouseEvent e) {
-				exited(quitbutton, "           Quit Game");
+			public void mouseReleased(MouseEvent e) {
+				setVisible(false);
+				rulesFrame.setVisible(true);
+			}
+		});
+
+		quitbutton.addMouseListener(new MouseListener() {
+
+			public void mouseClicked(MouseEvent e) {
 			}
 
 			public void mouseEntered(MouseEvent e) {
 				entered(quitbutton, "          Quit Game");
 			}
 
-			public void mouseClicked(MouseEvent e) {
+			public void mouseExited(MouseEvent e) {
+				exited(quitbutton, "           Quit Game");
+			}
+
+			public void mousePressed(MouseEvent e) {
+				playClickSound();
+			}
+
+			public void mouseReleased(MouseEvent e) {
+				System.exit(0);
 			}
 		});
 	}
@@ -223,15 +212,29 @@ public class StartFrame extends JFrame {
 		label.setText(name);
 	}
 
+	public void playClickSound() {
+		try {
+
+			AudioInputStream audioInputStream = AudioSystem
+					.getAudioInputStream(new File(getClass().getResource(
+							"/click.wav").getFile()));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void startGame(int player) {
 		setVisible(false);
 		boggleFrame.setPlayer(player);
 		boggleFrame.resetBoard();
 		boggleFrame.setVisible(true);
-	}
-
-	public static void main(String[] args) throws IOException {
-		Injector injector = Guice.createInjector(new BoggleModule());
-		injector.getInstance(StartFrame.class).setVisible(true);
 	}
 }

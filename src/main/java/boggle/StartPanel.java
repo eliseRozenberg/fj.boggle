@@ -19,7 +19,8 @@ public class StartPanel extends JPanel {
 	public StartPanel() {
 
 		try {
-			image = ImageIO.read(getClass().getResourceAsStream("/startBackground.jpg"));
+			image = ImageIO.read(getClass().getResourceAsStream(
+					"/startBackground.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -28,7 +29,6 @@ public class StartPanel extends JPanel {
 
 	@Override
 	protected void paintComponent(Graphics g) {
-
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
 	}

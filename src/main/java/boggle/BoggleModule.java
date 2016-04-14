@@ -6,7 +6,5 @@ import com.google.inject.Module;
 public class BoggleModule implements Module {
 
 	public void configure(Binder arg0) {
-		// TODO Auto-generated method stub
 	}
-
 }
