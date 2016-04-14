@@ -21,10 +21,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Singleton;
 
-@Singleton
+//@Singleton
 public class StartFrame extends JFrame {
 
 	/**
@@ -41,7 +41,7 @@ public class StartFrame extends JFrame {
 	private Color colorExited, colorEntered;
 	private Font font1, font2;
 
-	// @Inject
+	@Inject
 	public StartFrame() throws IOException {
 
 		setTitle("BOGGLE");

@@ -3,11 +3,10 @@ package boggle;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-
-import com.google.inject.Singleton;
 
 public class StartPanel extends JPanel {
 
@@ -20,13 +19,12 @@ public class StartPanel extends JPanel {
 	public StartPanel() {
 
 		try {
-			image = ImageIO.read(getClass().getResourceAsStream("/startBackground.jpg"));
+			image = ImageIO.read(getClass().getResourceAsStream(
+					"/startBackground.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
 	}
 
 	@Override
@@ -34,7 +32,5 @@ public class StartPanel extends JPanel {
 
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-
 	}
-
 }
