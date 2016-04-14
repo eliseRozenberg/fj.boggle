@@ -18,8 +18,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -543,8 +544,9 @@ public class BoggleFrame extends JFrame {
 
 	public void getAudio(String name) {
 		try {
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(getClass().getResource(name)
-					.getFile()));
+			InputStream in = StartFrame.class.getResourceAsStream(name);
+			BufferedInputStream buffer = new BufferedInputStream(in);
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(buffer);
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();

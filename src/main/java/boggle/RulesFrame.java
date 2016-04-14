@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -253,8 +254,8 @@ public class RulesFrame extends JFrame {
 
 	public void createImages() {
 		for (int i = 0; i < pictures.length; i++) {
-			pictures[i] = new ImageIcon(
-					formatIcon(getWidth(), getHeight() - 190, getClass().getResource("/pix" + (i + 1) + ".JPG")));
+			pictures[i] = new ImageIcon(formatIcon(getWidth(), getHeight() - 190,
+					getClass().getResource("/pix" + (i + 1) + ".JPG")));
 		}
 	}
 

@@ -7,8 +7,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -214,9 +215,9 @@ public class StartFrame extends JFrame {
 
 	public void playClickSound() {
 		try {
-
-			AudioInputStream audioInputStream = AudioSystem
-					.getAudioInputStream(new File(getClass().getResource("/click.wav").getFile()));
+			InputStream in = StartFrame.class.getResourceAsStream("/click.wav");
+			BufferedInputStream buffer = new BufferedInputStream(in);
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(buffer);
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();

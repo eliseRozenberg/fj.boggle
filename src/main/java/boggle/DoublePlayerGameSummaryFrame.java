@@ -5,10 +5,18 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -99,10 +107,10 @@ public class DoublePlayerGameSummaryFrame extends JFrame {
 
 		leftPanel.setBackground(Color.BLUE);
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-		
+
 		rightPanel.setBackground(Color.BLUE);
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-		
+
 		middlePanel.setBackground(Color.WHITE);
 		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
 
@@ -168,6 +176,7 @@ public class DoublePlayerGameSummaryFrame extends JFrame {
 	}
 
 	public void updateLists(List<String> playerOneWords, List<String> playerTwoWords) {
+		playCheerSound();
 		sameWords.clear();
 		playerOneScore = 0;
 		playerTwoScore = 0;
@@ -220,5 +229,23 @@ public class DoublePlayerGameSummaryFrame extends JFrame {
 	public int getScore2() {
 		return playerTwoScore;
 
+	}
+
+	public void playCheerSound() {
+		try {
+			InputStream in = StartFrame.class.getResourceAsStream("/cheering.wav");
+			BufferedInputStream buffer = new BufferedInputStream(in);
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(buffer);
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
 	}
 }
