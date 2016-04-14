@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import com.google.gson.Gson;
+import com.google.inject.Inject;
 
 public class BoggleThread extends Thread {
 
@@ -16,6 +17,7 @@ public class BoggleThread extends Thread {
 	private final BoggleFrame frame;
 	private boolean caught;
 
+	@Inject
 	public BoggleThread(String word, BoggleFrame frame) {
 
 		this.frame = frame;
