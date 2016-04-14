@@ -109,6 +109,9 @@ public class StartFrame extends JFrame {
 			e.printStackTrace();
 		}
 	}
+	public void adddLis(String name){
+		
+	}
 
 	public void addListeners() {
 		singleButton.addMouseListener(new MouseListener() {
