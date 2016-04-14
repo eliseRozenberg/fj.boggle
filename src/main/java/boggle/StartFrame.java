@@ -32,9 +32,9 @@ public class StartFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private StartPanel startPanel;
 	private BoggleFrame boggleFrame;
 	private RulesFrame rulesFrame;
+	private StartPanel startPanel;
 	private Container container;
 	private JLabel singleButton, doubleButton, rulesButton, quitbutton;
 	private Color colorExited, colorEntered;
@@ -47,8 +47,7 @@ public class StartFrame extends JFrame {
 		setSize(600, 700);
 		setLocationRelativeTo(null);
 		setResizable(false);
-		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg"))
-				.getImage());
+		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg")).getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		addFormat();
@@ -60,8 +59,8 @@ public class StartFrame extends JFrame {
 		container.setLayout(new BorderLayout());
 
 		rulesFrame = new RulesFrame(this);
+		boggleFrame = new BoggleFrame(this);
 		startPanel = new StartPanel();
-		boggleFrame = new BoggleFrame(this, 1);
 
 		colorExited = new Color(255, 255, 255);
 		colorEntered = new Color(255, 255, 0);
@@ -101,8 +100,7 @@ public class StartFrame extends JFrame {
 		try {
 
 			AudioInputStream audioInputStream = AudioSystem
-					.getAudioInputStream(new File(getClass().getResource(
-							"/click.wav").getFile()));
+					.getAudioInputStream(new File(getClass().getResource("/click.wav").getFile()));
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
@@ -124,10 +122,7 @@ public class StartFrame extends JFrame {
 		singleButton.addMouseListener(new MouseListener() {
 
 			public void mouseReleased(MouseEvent e) {
-				setVisible(false);
-				boggleFrame.setPlayer(1);
-				boggleFrame.resetBoard();
-				boggleFrame.setVisible(true);
+				startGame(1);
 			}
 
 			public void mousePressed(MouseEvent e) {
@@ -135,16 +130,12 @@ public class StartFrame extends JFrame {
 			}
 
 			public void mouseExited(MouseEvent e) {
-				singleButton.setForeground(colorExited);
-				singleButton.setFont(font1);
-				singleButton.setText("          Single Player");
+				exited(singleButton, "          Single Player");
+
 			}
 
 			public void mouseEntered(MouseEvent e) {
-				playClickSound();
-				singleButton.setForeground(colorEntered);
-				singleButton.setFont(font2);
-				singleButton.setText("         Single Player");
+				entered(singleButton, "         Single Player");
 			}
 
 			public void mouseClicked(MouseEvent e) {
@@ -154,10 +145,7 @@ public class StartFrame extends JFrame {
 		doubleButton.addMouseListener(new MouseListener() {
 
 			public void mouseReleased(MouseEvent e) {
-				setVisible(false);
-				boggleFrame.setPlayer(2);
-				boggleFrame.resetBoard();
-				boggleFrame.setVisible(true);
+				startGame(2);
 			}
 
 			public void mousePressed(MouseEvent e) {
@@ -165,16 +153,11 @@ public class StartFrame extends JFrame {
 			}
 
 			public void mouseExited(MouseEvent e) {
-				doubleButton.setForeground(colorExited);
-				doubleButton.setFont(font1);
-				doubleButton.setText("        Double Player");
+				exited(doubleButton, "        Double Player");
 			}
 
 			public void mouseEntered(MouseEvent e) {
-				playClickSound();
-				doubleButton.setForeground(colorEntered);
-				doubleButton.setFont(font2);
-				doubleButton.setText("       Double Player");
+				entered(doubleButton, "       Double Player");
 			}
 
 			public void mouseClicked(MouseEvent e) {
@@ -193,16 +176,11 @@ public class StartFrame extends JFrame {
 			}
 
 			public void mouseExited(MouseEvent e) {
-				rulesButton.setForeground(colorExited);
-				rulesButton.setFont(font1);
-				rulesButton.setText("                Rules");
+				exited(rulesButton, "                Rules");
 			}
 
 			public void mouseEntered(MouseEvent e) {
-				playClickSound();
-				rulesButton.setForeground(colorEntered);
-				rulesButton.setFont(font2);
-				rulesButton.setText("               Rules");
+				entered(rulesButton, "               Rules");
 			}
 
 			public void mouseClicked(MouseEvent e) {
@@ -220,21 +198,36 @@ public class StartFrame extends JFrame {
 			}
 
 			public void mouseExited(MouseEvent e) {
-				quitbutton.setForeground(colorExited);
-				quitbutton.setFont(font1);
-				quitbutton.setText("           Quit Game");
+				exited(quitbutton, "           Quit Game");
 			}
 
 			public void mouseEntered(MouseEvent e) {
-				playClickSound();
-				quitbutton.setForeground(colorEntered);
-				quitbutton.setFont(font2);
-				quitbutton.setText("          Quit Game");
+				entered(quitbutton, "          Quit Game");
 			}
 
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
+	}
+
+	public void entered(JLabel label, String name) {
+		playClickSound();
+		label.setForeground(colorEntered);
+		label.setFont(font2);
+		label.setText(name);
+	}
+
+	public void exited(JLabel label, String name) {
+		label.setForeground(colorExited);
+		label.setFont(font1);
+		label.setText(name);
+	}
+
+	public void startGame(int player) {
+		setVisible(false);
+		boggleFrame.setPlayer(player);
+		boggleFrame.resetBoard();
+		boggleFrame.setVisible(true);
 	}
 
 	public static void main(String[] args) throws IOException {

@@ -30,10 +30,10 @@ public class RulesFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private final StartFrame startFrame;
+	private StartFrame startFrame;
 	private JPanel buttonPanel;
 	private JLabel menuButton, leftButton, rightButton, circleLabel, pix, heading1;
-	private final ImageIcon[] pictures;
+	private ImageIcon[] pictures;
 	private ImageIcon menu1, menu2;
 	private Border borderMenu, borderRight, borderExited;
 	private Font font1, font2;

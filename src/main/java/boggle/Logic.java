@@ -8,12 +8,6 @@ public class Logic {
 	private int num;
 	private String letter;
 
-	// private JTextField wordLabel;
-
-	// public Logic(JTextField wordLabel) {
-	// this.wordLabel = wordLabel;
-	// }
-
 	public Cell[][] fillBoard() {
 
 		// make random for the vowels
