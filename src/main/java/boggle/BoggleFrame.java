@@ -82,6 +82,7 @@ public class BoggleFrame extends JFrame {
 	private String[][] copy;
 	private boolean paused, roundOver;
 	private int interval, turn, playersCount, total1, total2, total;
+	private final int INTERVAL_MAX = 61;
 
 	@Inject
 	public BoggleFrame(StartFrame frame) {
@@ -153,7 +154,7 @@ public class BoggleFrame extends JFrame {
 		roundOver = false;
 		paused = false;
 		playersCount = 1;
-		interval = 61;
+		interval = INTERVAL_MAX;
 		total = 0;
 		turn = 1;
 
@@ -406,7 +407,7 @@ public class BoggleFrame extends JFrame {
 
 				JOptionPane.showMessageDialog(null, "Press enter to begin", "Player 2", JOptionPane.PLAIN_MESSAGE,
 						boggleIcon);
-				interval = 61;
+				interval = INTERVAL_MAX;
 				timer.start();
 
 				return;
@@ -601,7 +602,7 @@ public class BoggleFrame extends JFrame {
 		}
 		total = 0;
 		turn = 1;
-		interval = 61;
+		interval = INTERVAL_MAX;
 		fillBoard();
 		wordTextField.setEnabled(true);
 		rotateBoard.setEnabled(true);
