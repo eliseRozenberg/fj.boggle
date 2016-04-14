@@ -7,6 +7,8 @@ import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import com.google.inject.Singleton;
+
 public class StartPanel extends JPanel {
 
 	/**

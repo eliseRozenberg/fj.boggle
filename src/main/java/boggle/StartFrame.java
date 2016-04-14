@@ -20,6 +20,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Singleton;
+
+@Singleton
 public class StartFrame extends JFrame {
 
 	/**
@@ -235,5 +240,8 @@ public class StartFrame extends JFrame {
 
 	public static void main(String[] args) throws IOException {
 		new StartFrame().setVisible(true);
+		Injector injector = Guice.createInjector(new BoggleModule());
+		injector.getInstance(StartFrame.class).setVisible(true);
+	
 	}
 }

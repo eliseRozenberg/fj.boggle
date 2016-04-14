@@ -20,6 +20,10 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+@Singleton
 public class RulesFrame extends JFrame {
 	/**
 	 * 
@@ -37,6 +41,7 @@ public class RulesFrame extends JFrame {
 	private int position;
 	private int color;
 
+	@Inject
 	public RulesFrame(StartFrame frame) {
 		setTitle("HOW TO PLAY!");
 		setSize(1000, 1000);
