@@ -21,10 +21,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Singleton;
 
-@Singleton
+//@Singleton
 public class StartFrame extends JFrame {
 
 	/**
@@ -41,6 +41,7 @@ public class StartFrame extends JFrame {
 	private Color colorExited, colorEntered;
 	private Font font1, font2;
 
+	@Inject
 	public StartFrame() throws IOException {
 
 		setTitle("BOGGLE");
@@ -116,8 +117,9 @@ public class StartFrame extends JFrame {
 			e.printStackTrace();
 		}
 	}
-	public void adddLis(String name){
-		
+
+	public void adddLis(String name) {
+
 	}
 
 	public void addListeners() {
@@ -241,6 +243,5 @@ public class StartFrame extends JFrame {
 	public static void main(String[] args) throws IOException {
 		Injector injector = Guice.createInjector(new BoggleModule());
 		injector.getInstance(StartFrame.class).setVisible(true);
-	
 	}
 }

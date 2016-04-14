@@ -1,6 +1,4 @@
-
 package boggle;
-
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -24,7 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
-
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -51,13 +48,11 @@ import javax.swing.border.LineBorder;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DocumentFilter;
 
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class BoggleFrame extends JFrame {
-
 
 	private static final long serialVersionUID = 1L;
 	private BoggleThread thread;
@@ -65,7 +60,6 @@ public class BoggleFrame extends JFrame {
 	private Timer timer;
 	private final StartFrame startFrame;
 	private final Font letterFont;
-
 
 	private final Container container;
 	private final JPanel boardPanel;
@@ -87,7 +81,6 @@ public class BoggleFrame extends JFrame {
 	private final JButton menuButton;
 	private final Stack<Cell> cellsStack;
 
-
 	private final JLabel correctLabel;
 	private final ArrayList<String> words;
 	private final String[][] copy;
@@ -95,7 +88,6 @@ public class BoggleFrame extends JFrame {
 	private int turn = 1, players = 1;
 	private int total1, total2, total = 0;
 	private boolean paused;
-
 
 	private final ImageIcon blankImage;
 	private final ImageIcon checkImage;
@@ -107,7 +99,6 @@ public class BoggleFrame extends JFrame {
 	private final DocumentFilter filter;
 	private boolean roundOver = false;
 
-
 	@Inject
 	public BoggleFrame(StartFrame frame, int players) {
 		setTitle("BOGGLE");
@@ -117,7 +108,6 @@ public class BoggleFrame extends JFrame {
 		setResizable(false);
 		setIconImage(new ImageIcon(getClass().getResource("/frameLogo.jpg"))
 				.getImage());
-
 
 		startFrame = frame;
 		container = getContentPane();
@@ -129,7 +119,6 @@ public class BoggleFrame extends JFrame {
 		scorePanel = new JPanel();
 		wordListArea = new JTextArea();
 		scrollPane = new JScrollPane(wordListArea);
-
 
 		resetBoard = new JButton("Reset Board!");
 		rotateBoard = new JButton("ROTATE");
@@ -149,7 +138,6 @@ public class BoggleFrame extends JFrame {
 		logic = new Logic();
 		logic.fillBoard();
 
-
 		blankImage = new ImageIcon(new ImageIcon(getClass().getResource(
 				"/blank.png")).getImage().getScaledInstance(60, 60,
 				Image.SCALE_SMOOTH));
@@ -159,23 +147,18 @@ public class BoggleFrame extends JFrame {
 		xImage = new ImageIcon(new ImageIcon(getClass().getResource("/x.jpg"))
 				.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH));
 
-
 		for (int row = 0; row < 4; row++) {
 			for (int col = 0; col < 4; col++) {
 				boggleBoard[row][col] = new JLabel();
 				boardPanel.add(boggleBoard[row][col]);
 
-
 			}
 		}
 
-
 		letterFont = (new Font("Calibri", Font.BOLD, 50));
-
 
 		// boggleIcon = new
 		// ImageIcon(getClass().getResource("/boggleMessage.png"));
-
 
 		boardClickedBorder = new LineBorder(Color.GREEN, 10, true);
 		boardEnteredBorder = BorderFactory.createMatteBorder(12, 12, 8, 8,
@@ -184,7 +167,6 @@ public class BoggleFrame extends JFrame {
 		rotateEnteredBorder = BorderFactory.createMatteBorder(3, 3, 0, 0,
 				Color.blue);
 		rotateExitedBorder = new LineBorder(Color.BLUE, 1, true);
-
 
 		filter = new UppercaseDocumentFilter();
 		words = new ArrayList<String>();
@@ -199,7 +181,6 @@ public class BoggleFrame extends JFrame {
 		// resetBoard();
 	}
 
-
 	private void setWindowListener() {
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -209,19 +190,14 @@ public class BoggleFrame extends JFrame {
 		});
 	}
 
-
 	private void addActionListeners() {
 
-
 		setWindowListener();
-
 
 		KeyboardFocusManager.getCurrentKeyboardFocusManager()
 				.addKeyEventPostProcessor(new KeyEventPostProcessor() {
 
-
 					public boolean postProcessKeyEvent(KeyEvent event) {
-
 
 						if ((event.getKeyCode() == KeyEvent.VK_ENTER)
 								&& (!roundOver)) {
@@ -241,41 +217,30 @@ public class BoggleFrame extends JFrame {
 					}
 				});
 
-
 		resetBoard.addActionListener(new ActionListener() {
-
 
 			public void actionPerformed(ActionEvent arg0) {
 				resetBoard();
 
-
 				wordTextField.requestFocus();
-
 
 			}
 		});
 
-
 		rotateBoard.addActionListener(new ActionListener() {
-
 
 			public void actionPerformed(ActionEvent arg0) {
 				rotateMatrixRight();
 
-
 				wordTextField.requestFocus();
-
 
 			}
 		});
 
-
 		pauseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-
 				wordTextField.requestFocus();
-
 
 				if (paused) {
 					rightPanel.remove(pauseLabel);
@@ -288,7 +253,6 @@ public class BoggleFrame extends JFrame {
 					repaint();
 					return;
 				}
-
 
 				if (!paused) {
 					rightPanel.remove(boardPanel);
@@ -305,7 +269,6 @@ public class BoggleFrame extends JFrame {
 		});
 		menuButton.addActionListener(new ActionListener() {
 
-
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				setVisible(false);
@@ -314,28 +277,22 @@ public class BoggleFrame extends JFrame {
 			}
 		});
 
-
 		wordTextField.addActionListener(new ActionListener() {
-
 
 			public void actionPerformed(ActionEvent arg0) {
 				checkWord();
 
-
 				wordTextField.requestFocus();
 			}
 		});
-
 
 		for (int row = 0; row < 4; row++) {
 			for (int col = 0; col < 4; col++) {
 				final int i = row;
 				final int j = col;
 
-
 				boggleBoard[row][col].addMouseListener(new MouseListener() {
 					public void mouseClicked(MouseEvent arg0) {
-
 
 						if (!cellsStack.contains(logic.getCell(i, j))) {
 							wordTextField.setText(wordTextField.getText()
@@ -344,68 +301,49 @@ public class BoggleFrame extends JFrame {
 							boggleBoard[i][j].setBorder(boardClickedBorder);
 							logic.setIsClicked(i, j, true);
 
-
 							// play click sound
 							try {
 
-
 								AudioInputStream audioInputStream = AudioSystem
-
 
 								.getAudioInputStream(new File(getClass()
 										.getResource("/click.wav").getFile()));
 
-
 								Clip clip = AudioSystem.getClip();
-
 
 								clip.open(audioInputStream);
 
-
 								clip.start();
-
 
 							} catch (UnsupportedAudioFileException e) {
 
-
 								e.printStackTrace();
-
 
 							} catch (IOException e) {
 
-
 								e.printStackTrace();
-
 
 							} catch (LineUnavailableException e) {
 
-
 								e.printStackTrace();
 
-
 							}
-
 
 						}
 					}
 
-
 					public void mouseEntered(MouseEvent arg0) {
-
 
 						if (logic.getIsClicked(i, j)
 								|| !boggleBoard[i][j].isEnabled()) {
 							boggleBoard[i][j].setBorder(boardClickedBorder);
 						} else {
 
-
 							boggleBoard[i][j].setBorder(boardEnteredBorder);
 						}
 					}
 
-
 					public void mouseExited(MouseEvent arg0) {
-
 
 						if (!logic.getIsClicked(i, j)
 								|| !boggleBoard[i][j].isEnabled()) {
@@ -413,20 +351,16 @@ public class BoggleFrame extends JFrame {
 						}
 					}
 
-
 					public void mousePressed(MouseEvent arg0) {
 					}
 
-
 					public void mouseReleased(MouseEvent arg0) {
-
 
 					}
 				});
 			}
 		}
 	}
-
 
 	public int addScore(int amt) {
 		int points = 0;
@@ -465,28 +399,22 @@ public class BoggleFrame extends JFrame {
 		return points;
 	}
 
-
 	private void addTimer() {
 		timer = new Timer(1000, new ActionListener() {
 
-
 			public void actionPerformed(ActionEvent arg0) {
-
 
 				if (!paused) {
 					timerLabel.setText("Timer: " + String.valueOf(checkTimer()));
 				}
 			}
 
-
 		});
 	}
-
 
 	private void addToPanels() {
 		scorePanel.add(score1);
 		scorePanel.add(score2);
-
 
 		topPanel.add(imageLabel, BorderLayout.CENTER);
 		topPanel.add(timerLabel, BorderLayout.SOUTH);
@@ -494,10 +422,8 @@ public class BoggleFrame extends JFrame {
 		topPanel.add(status, BorderLayout.EAST);
 		topPanel.add(menuButton, BorderLayout.NORTH);
 
-
 		rightPanel.add(pauseButton, BorderLayout.NORTH);
 		rightPanel.add(boardPanel, BorderLayout.CENTER);
-
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -507,11 +433,9 @@ public class BoggleFrame extends JFrame {
 		leftPanel.add(scrollPane, BorderLayout.CENTER);
 		leftPanel.add(resetBoard, BorderLayout.NORTH);
 
-
 		bottomPanel.add(wordTextField);
 		bottomPanel.add(Box.createRigidArea(new Dimension(100, 0)));
 		bottomPanel.add(rotateBoard);
-
 
 		container.add(rightPanel, BorderLayout.CENTER);
 		container.add(topPanel, BorderLayout.NORTH);
@@ -519,62 +443,46 @@ public class BoggleFrame extends JFrame {
 		container.add(bottomPanel, BorderLayout.SOUTH);
 	}
 
-
 	public void appendWord(String word, int points) {
 		words.add(word);
 		if (points == 1) {
 			wordListArea.append(" " + points + "    " + word.toUpperCase()
 					+ "\n");
 
-
 		} else {
 			wordListArea.append(" " + points + "   " + word.toUpperCase()
 					+ "\n");
-
 
 		}
 		wordTextField.setText("");
 	}
 
-
 	private int checkTimer() {
 		if (interval == 0) {
 			try {
 
-
 				AudioInputStream audioInputStream = AudioSystem
-
 
 				.getAudioInputStream(new File(getClass().getResource(
 						"/wrongAnswerSound.wav").getFile()));
 
-
 				Clip clip = AudioSystem.getClip();
-
 
 				clip.open(audioInputStream);
 
-
 				clip.loop(3);
-
 
 			} catch (UnsupportedAudioFileException e) {
 
-
 				e.printStackTrace();
-
 
 			} catch (IOException e) {
 
-
 				e.printStackTrace();
-
 
 			} catch (LineUnavailableException e) {
 
-
 				e.printStackTrace();
-
 
 			}
 			endRound();
@@ -586,7 +494,6 @@ public class BoggleFrame extends JFrame {
 		return --interval;
 	}
 
-
 	public void checkWord() {
 		String word = wordTextField.getText().toLowerCase();
 		wordTextField.setText("");
@@ -596,13 +503,11 @@ public class BoggleFrame extends JFrame {
 		}
 		boolean valid = false;
 
-
 		if (words.contains(word) || (word.length() < 3)) {
 			setWordInvalid();
 			return;
 		}
 		valid = logic.checkWord(word);
-
 
 		if (valid) {
 			thread = new BoggleThread(word, BoggleFrame.this);
@@ -611,7 +516,6 @@ public class BoggleFrame extends JFrame {
 			setWordInvalid();
 		}
 	}
-
 
 	public void endRound() {
 		roundOver = true;
@@ -638,7 +542,6 @@ public class BoggleFrame extends JFrame {
 				if (total1 > total2) {
 					setStatus(3);
 
-
 				} else if (total1 < total2) {
 					setStatus(4);
 				} else {
@@ -650,7 +553,6 @@ public class BoggleFrame extends JFrame {
 		rotateBoard.setEnabled(false);
 		pauseButton.setEnabled(false);
 
-
 		// disable the letters
 		for (JLabel[] element : boggleBoard) {
 			for (JLabel element2 : element) {
@@ -659,42 +561,29 @@ public class BoggleFrame extends JFrame {
 			}
 		}
 
-
 	}
-
 
 	public void fillBoard() {
 
-
 		logic.fillBoard();
-
 
 		for (int row = 0; row < 4; row++) {
 
-
 			for (int col = 0; col < 4; col++) {
-
 
 				boggleBoard[row][col].setText(logic.getValueOfCell(row, col));
 
-
 				boggleBoard[row][col].setHorizontalAlignment(JLabel.CENTER);
-
 
 				boggleBoard[row][col].setVerticalAlignment(JLabel.CENTER);
 
-
 				boggleBoard[row][col].setFont(letterFont);
-
 
 				boggleBoard[row][col].setForeground(Color.BLUE);
 
-
 				boggleBoard[row][col].setBackground(Color.WHITE);
 
-
 				boggleBoard[row][col].setOpaque(true);
-
 
 				boggleBoard[row][col].setBorder(new LineBorder(Color.BLUE, 10,
 						true));
@@ -702,38 +591,29 @@ public class BoggleFrame extends JFrame {
 		}
 	}
 
-
 	private void format() {
 		container.setLayout(new BorderLayout());
 
-
 		boardPanel.setLayout(new GridLayout(4, 4));
-
 
 		topPanel.setLayout(new BorderLayout());
 		topPanel.setBackground(Color.BLUE);
-
 
 		leftPanel.setLayout(new BorderLayout());
 		rightPanel.setLayout(new BorderLayout());
 		bottomPanel.setLayout(new FlowLayout());
 
-
 		scorePanel.setBackground(Color.blue);
 		scorePanel.setLayout(new BoxLayout(scorePanel, BoxLayout.Y_AXIS));
 
-
 		Font font = new Font("Berlin Sans FB", Font.PLAIN, 35);
 		Font fontTwo = new Font("Berlin Sans FB", Font.PLAIN, 30);
-
 
 		timerLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		timerLabel.setFont(font);
 		timerLabel.setForeground(Color.WHITE);
 
-
 		correctLabel.setIcon(blankImage);
-
 
 		wordTextField.setOpaque(true);
 		wordTextField.setBackground(new Color(204, 204, 255));
@@ -747,17 +627,14 @@ public class BoggleFrame extends JFrame {
 				.getDocument();
 		document.setDocumentFilter(filter);
 
-
 		score1.setFont(font);
 		score1.setForeground(Color.WHITE);
 		score2.setFont(font);
 		score2.setForeground(Color.WHITE);
 
-
 		status.setFont(font);
 		status.setForeground(Color.WHITE);
 		status.setText("hhhel");
-
 
 		scrollPane
 				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -765,7 +642,6 @@ public class BoggleFrame extends JFrame {
 		wordListArea.setForeground(Color.BLACK);
 		wordListArea.setFont(fontTwo);
 		wordListArea.setEditable(false);
-
 
 		resetBoard.setBackground(new Color(204, 204, 255));
 		resetBoard.setForeground(Color.BLUE);
@@ -775,7 +651,6 @@ public class BoggleFrame extends JFrame {
 		resetBoard.setFocusPainted(false);
 		resetBoard.setRolloverEnabled(false);
 
-
 		rotateBoard.setBackground(new Color(204, 204, 255));
 		rotateBoard.setForeground(Color.BLUE);
 		rotateBoard.setFont(font);
@@ -783,7 +658,6 @@ public class BoggleFrame extends JFrame {
 		rotateBoard.setBorderPainted(false);
 		rotateBoard.setFocusPainted(false);
 		rotateBoard.setRolloverEnabled(false);
-
 
 		menuButton.setBackground(new Color(204, 204, 255));
 		menuButton.setForeground(Color.BLUE);
@@ -793,7 +667,6 @@ public class BoggleFrame extends JFrame {
 		menuButton.setFocusPainted(false);
 		menuButton.setRolloverEnabled(false);
 
-
 		pauseButton.setBackground(new Color(204, 204, 255));
 		pauseButton.setForeground(Color.BLUE);
 		pauseButton.setFont(fontTwo);
@@ -802,13 +675,11 @@ public class BoggleFrame extends JFrame {
 		pauseButton.setFocusPainted(false);
 		pauseButton.setRolloverEnabled(false);
 
-
 		pauseLabel.setBackground(Color.BLACK);
 		pauseLabel.setOpaque(true);
 		pauseLabel.setForeground(Color.WHITE);
 		pauseLabel.setFont(new Font("Calibri", Font.BOLD, 60));
 	}
-
 
 	public void resetBoard() {
 		roundOver = false;
@@ -839,7 +710,6 @@ public class BoggleFrame extends JFrame {
 		timer.start();
 	}
 
-
 	public void resetCells() {
 		cellsStack.clear();
 		for (int row = 0; row < 4; row++) {
@@ -850,7 +720,6 @@ public class BoggleFrame extends JFrame {
 			}
 		}
 	}
-
 
 	public void rotateMatrixRight() {
 		resetCells();
@@ -869,11 +738,9 @@ public class BoggleFrame extends JFrame {
 		}
 	}
 
-
 	public void setPlayer(int players) {
 		this.players = players;
 	}
-
 
 	private void setStatus(int num) {
 		switch (num) {
@@ -901,7 +768,6 @@ public class BoggleFrame extends JFrame {
 		}
 	}
 
-
 	public void setWordInvalid() {
 		try {
 			AudioInputStream audioInputStream = AudioSystem
@@ -910,7 +776,6 @@ public class BoggleFrame extends JFrame {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
-
 
 		} catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
@@ -922,7 +787,6 @@ public class BoggleFrame extends JFrame {
 		Thread thread = new Thread() {
 			@Override
 			public void run() {
-
 
 				correctLabel.setIcon(xImage);
 				try {
@@ -936,7 +800,6 @@ public class BoggleFrame extends JFrame {
 		thread.start();
 	}
 
-
 	public void setWordValid() {
 		try {
 			AudioInputStream audioInputStream = AudioSystem
@@ -945,7 +808,6 @@ public class BoggleFrame extends JFrame {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
-
 
 		} catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();

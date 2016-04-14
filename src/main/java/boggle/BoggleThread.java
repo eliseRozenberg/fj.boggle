@@ -30,13 +30,18 @@ public class BoggleThread extends Thread {
 	public void run() {
 
 		try {
-			URL dictionaryURL = new URL("https://en.wiktionary.org/w/api.php?action=query&format=json&titles=" + word);
-			HttpURLConnection connection = (HttpURLConnection) dictionaryURL.openConnection();
-			InputStream input = connection.getInputStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+			URL dictionaryURL = new URL(
+					"https://en.wiktionary.org/w/api.php?action=query&format=json&titles="
+							+ word);
 
+			HttpURLConnection connection = (HttpURLConnection) dictionaryURL
+					.openConnection();
+			InputStream input = connection.getInputStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					input));
 			Gson gson = new Gson();
-			WordExistsJson wordExists = gson.fromJson(reader, WordExistsJson.class);
+			WordExistsJson wordExists = gson.fromJson(reader,
+					WordExistsJson.class);
 
 			if (wordExists.getQuery().getPages().containsKey(-1)) {
 				frame.setWordInvalid();
