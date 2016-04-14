@@ -152,7 +152,7 @@ public class BoggleFrame extends JFrame {
 		roundOver = false;
 		paused = false;
 		playersCount = 1;
-		interval = 181;
+		interval = 61;
 		total = 0;
 		turn = 1;
 
@@ -405,7 +405,7 @@ public class BoggleFrame extends JFrame {
 
 				JOptionPane.showMessageDialog(null, "Press enter to begin", "Player 2", JOptionPane.PLAIN_MESSAGE,
 						boggleIcon);
-				interval = 181;
+				interval = 61;
 				timer.start();
 
 				return;
@@ -599,7 +599,7 @@ public class BoggleFrame extends JFrame {
 		}
 		total = 0;
 		turn = 1;
-		interval = 181;
+		interval = 61;
 		fillBoard();
 		wordTextField.setEnabled(true);
 		rotateBoard.setEnabled(true);
