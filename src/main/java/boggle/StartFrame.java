@@ -149,8 +149,7 @@ public class StartFrame extends JFrame {
 				setVisible(false);
 				boggleFrame.setPlayer(2);
 				boggleFrame.resetBoard();
-				boggleFrame.setVisible(true);
-			
+				boggleFrame.setVisible(true);	
 			}
 
 			public void mousePressed(MouseEvent e) {

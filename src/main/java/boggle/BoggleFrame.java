@@ -634,7 +634,7 @@ public class BoggleFrame extends JFrame {
 		}
 		total = 0;
 		turn = 1;
-		interval = 181;
+		interval = 10;
 		fillBoard();
 		timer.start();
 	}
